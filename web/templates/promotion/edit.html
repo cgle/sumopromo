@@ -1,0 +1,20 @@
+{% extends "layouts/L84.html" %}
+
+{% import "macros/form.html" as form_macro %}
+{% import "macros/business.html" as business_macro %}
+
+{% block right_column %}
+{{business_macro.render_business_blob(business)}}
+{% endblock %}
+
+{% block left_column %}
+<div id='edit-promotion-container'>
+    <h2>Edit promotion: {{promotion.name}}</h2>
+    <div class='row'>
+        <div class='col-xs-12 col-sm-6'>
+            {{ form_macro.render_form(form, action_url='/promtion/{}/edit'.format(promotion.id), action_text='Edit', btn_class='btn btn-success' cancel_btn='/promotion/{}'.format(promotion.id)) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
+

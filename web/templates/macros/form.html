@@ -1,0 +1,105 @@
+{% macro render_field(field, label_visible=true) -%}
+    <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+        {% if (field.type != 'HiddenField' or field.type !='CSRFTokenField') and label_visible %}
+            <label for="{{ field.id }}" class="control-label">{{ field.label.text }}</label>
+        {% endif %}
+
+        {{ field(class_='form-control', **kwargs) }}
+
+        {% if field.description %}
+            <p class="help-block">{{ field.description }}</p>
+        {% endif %}
+
+        {% if field.errors %}
+            {% for e in field.errors %}
+                <p class="help-block">{{ e }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+{%- endmacro %}
+
+{% macro render_checkbox_field(field) -%}
+    <div class="checkbox">
+        <label for="{{ field.id }}">{{ field(type='checkbox', **kwargs) }} {{ field.label.text }}</label>
+        {% if field.description %}
+            <p class="help-block">{{ field.description }}</p>
+        {% endif %}
+    </div>
+{%- endmacro %}
+
+
+{% macro render_multi_checkbox_field(field) -%}
+    {% if field %}
+    <div class="checkbox-group{% if field.errors %} has-error{% endif %}">
+        <ul>
+            {% for f in field %}
+           <li>
+               {{ render_checkbox_field(f) }}
+           </li>
+            {% endfor %}
+        </ul>
+        {% if field.errors %}
+            {% for e in field.errors %}
+                <p class="help-block">{{ e }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+    {% endif %}
+{%- endmacro %}
+
+{% macro render_radio_field(field) -%}
+    {% for value, label, checked in field.iter_choices() %}
+        <div class="radio">
+            <input type="radio" name="{{ field.name }}" id="{{ field.id }}" value="{{ value }}"{% if checked %} checked=”true”{% endif %}>{{ label }}
+        </div>
+    {% endfor %}
+{%- endmacro %}
+
+
+{% macro render_form_fields(form, action_url, ignore_csrf_field=False, wrap_with_fieldset=False) -%}
+    {% if form.type and form.type == 'FormField' %}
+        {% set legend = form.label.text %}
+        {% set form = form.form %}
+    {% endif %}
+
+    {{ form.hidden_tag() if form.hidden_tag }}
+    {% if wrap_with_fieldset %}
+    <fieldset>
+    <legend>{{ legend }}</legend>
+    {% endif %}
+    {% if caller %}
+        {{ caller() }}
+    {% else %}
+        {% for f in form %}
+            {% if f.type == 'FormField' %}
+                {{ render_form_fields(f, ignore_csrf_field=True, wrap_with_fieldset=True) }}
+            {% elif f.type == 'MultiCheckboxField' %}
+                {{ render_multi_checkbox_field(f) }}
+            {% elif f.type == 'BooleanField' %}
+                {{ render_checkbox_field(f) }}
+            {% elif f.type == 'RadioField' %}
+                {{ render_radio_field(f) }}
+            {% elif f.type == 'CSRFTokenField' %}
+                {% if not ignore_csrf_field %}
+                    {{ render_field(f, label_visible=False) }}
+                {% endif %}
+            {% else %}
+                {{ render_field(f) }}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {% if wrap_with_fieldset %}
+    </fieldset>
+    {% endif %}
+{%- endmacro %}
+
+{% macro render_form(form, action_url='', action_text='Submit', class_='', btn_class='btn btn-default', cancel_btn='', extra_attributes={}) -%}
+    <form method="POST" action="{{ action_url }}" role="form" class="{{ class_ }}" {% for k,v in extra_attributes.iteritems() %} {{k}}={{v}} {% endfor %}>
+        {{ render_form_fields(form=form, action_url=action_url) }}
+        <button type="submit" class="{{ btn_class }}">{{ action_text }} </button>
+        {% if cancel_btn %}
+        <a class='btn btn-default' href='{{cancel_btn}}'>Cancel</a>
+        {% endif %}
+    </form>
+{%- endmacro %}

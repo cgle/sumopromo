@@ -1,0 +1,28 @@
+upstream gunicorn {
+    server 127.0.0.1:8080;
+}
+
+server {
+    listen 80;
+    server_name sumopromo.com;
+    return 301 $scheme://www.sumopromo.com$request_uri;
+}
+
+server {
+    listen        80;
+    server_name www.sumopromo.com;
+
+    root /home/jwtnb/sumopromo/launching_page;
+    
+    location / {
+        proxy_set_header X-Forward-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+        proxy_pass http://gunicorn;        
+    }
+
+    location /static {
+        alias  /home/jwtnb/sumopromo/launching_page/static/;
+        autoindex on;
+    }
+}

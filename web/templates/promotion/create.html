@@ -1,0 +1,19 @@
+{% extends "layouts/L84.html" %}
+
+{% import "macros/form.html" as form_macro %}
+{% import "macros/business.html" as business_macro %}
+
+{% block right_column %}
+{{business_macro.render_business_blob(business)}}
+{% endblock %}
+
+{% block left_column %}
+<div id='create-promotion-container'>
+    <h2>Create a promotion</h2>
+    <div class='row'>
+        <div class='col-xs-12 col-sm-6'>
+            {{ form_macro.render_form(form, action_url='/business/{}/create-promotion'.format(business.id), action_text='Create', btn_class='btn btn-success') }}
+        </div>
+    </div>
+</div>
+{% endblock %}

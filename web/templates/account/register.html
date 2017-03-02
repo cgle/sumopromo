@@ -1,0 +1,15 @@
+{% extends "layouts/L1.html" %}
+
+{% import "macros/form.html" as form_macro %}
+
+{% block content %}
+<div id='register-container'>
+    <h2>Register</h2>
+    <div class='row'>
+        <div class='col-xs-12 col-sm-4'>
+            {{form_macro.render_form(form, action_url='/register', action_text='Register', btn_class='btn btn-success')}}
+        </div>
+    </div>
+</div>
+{% endblock %}
+

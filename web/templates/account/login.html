@@ -1,0 +1,39 @@
+{% extends "layouts/L1.html" %}
+
+{% import "macros/form.html" as form_macro %}
+
+{% block content %}
+<div id='login-container'>
+    <h2 class='welcome-text'>Welcome to SumoPromo!</h2>
+    <div class='row'>
+    <div class='login-with-email-container col-xs-12 col-sm-6'>
+        <div class='row'>
+        <div class='col-xs-12 col-sm-8'>
+        {{form_macro.render_form(form, action_url='/login', action_text='Log In', btn_class='btn btn-primary')}}
+        <a href='/register'>Not yet an user. Register now!</a>
+        </div>
+        </div>
+    </div>
+
+    <div class='social-login-container col-xs-12 col-sm-6'>
+        <div class='social-login-box'>
+            <a href='/auth/facebook' class='social-button facebook-login-button'>
+                <span>
+                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                    Log In with Facebook
+                </span>
+            </a>
+
+            <a href='/auth/google' class='social-button google-login-button'>
+                <span>
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                    Log In with Google
+                </span>
+            </a>
+
+        </div>
+    </div>   
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "layouts/L66.html" %}
+
+{% import "macros/form.html" as form_macro %}
+{% import "macros/business.html" as business_macro %}
+
+{% block left_column %}
+{{business_macro.render_business_blob(business)}}
+{% endblock %}
+
+{% block right_column %}
+<div id='edit-business-container'>
+    <h3>Edit {{business.name}}</h3>
+    {{ form_macro.render_form(form, class_='col-xs-12 col-sm-10', action_url='/business/{}/edit'.format(business.id), action_text='Edit', btn_class='btn btn-warning', cancel_btn='/business/{}'.format(business.id), extra_attributes={'enctype': 'multipart/form-data'}) }}
+</div>
+{% endblock %}
+

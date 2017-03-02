@@ -1,0 +1,87 @@
+{% macro render_item_actions(business, class_='right') %}
+    {% if current_user.is_authenticated %}
+    <div class='business-item-actions {{class_}}'>
+        <span action='edit'><a href='/business/{{business.id}}/edit'><i class='glyphicon glyphicon-pencil'></i>Edit</a></span>
+        <span action='delete'><a href='/business/{{business.id}}/delete'><i class='glyphicon glyphicon-trash'></i>Delete</a></span>
+        <span action='create-promotion'><a href='/business/{{business.id}}/create-promotion'><i class='glyphicon glyphicon-plus'></i>Create a promotion</a></span>
+    </div>
+    {% endif %}    
+{% endmacro %}
+
+{% macro render_business_item(business) %}
+<div class='business-item'>
+    <div class='row'>
+        <div class='col-xs-12 col-sm-6'>
+            <h4><a href='/business/{{business.id}}'>{{business.name}}</a></h4>
+        </div>
+        <div class='col-xs-12 col-sm-6'>
+            {{render_item_actions(business)}}
+        </div>
+    </div>
+    <div class='row'>
+        <div class='col-xs-12 col-sm-4'>
+            <table class='table table-borderless'>
+                <tbody>
+                    <tr>
+                        <th>Address</th>
+                        <td>{{business.full_address}}</td>
+                    </tr>
+                    <tr>
+                        <th>Website</th>
+                        <td><a href='{{business.website}}'>{{business.website}}</a></td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td><a href='mailto:{{business.email}}'>{{business.email}}</a></td>
+                    </tr>
+                    <tr>
+                        <th>Phone</th>
+                        <td>{{business.phone}}</td>
+                    </tr>
+                    <tr>
+                        <th>Fax</th>
+                        <td>{{business.fax}}</td>
+                    </tr>                    
+                </tbody>
+            </table>
+        </div>
+        <div class='col-xs-12 col-sm-8'>
+            <div class='media'>
+            <div class='media-body'>
+                <p>{{business.description}}</p>
+            </div>
+            <div class='media-right'>
+                <img class='media-object business-item-logo' src='{{business.logo}}' alt='business-logo'>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro render_business_blob(business) %}
+<div class='business-blob'>
+    <div class='panel panel-default'>
+
+    <div class='panel-heading'>
+        <h4>{{business.name}}</h4>
+    </div>
+
+    <div class='panel-body'>
+        <div class='media'>
+        <div class='media-left'>
+            <img class='media-object business-item-logo' src='{{business.logo}}' alt='business-logo'>
+        </div>
+        <div class='media-body'>
+            <div><b>Address: </b>{{business.full_address}}</div>
+            <div><b>Website: </b>{{business.website}}</div>
+            <div><b>Email: </b>{{business.email}}</div>
+            <div><b>Phone: </b>{{business.phone}}</div>
+            <div><b>Fax: </b>{{business.fax}}</div>
+        </div>
+        </div>
+    </div>
+
+    </div>
+</div>
+{% endmacro %}

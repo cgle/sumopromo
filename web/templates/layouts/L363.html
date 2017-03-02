@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class='container-fluid'>
+<div class='row'>
+    <div class='col-xs-12 col-sm-3'>
+        {% block left_column %}{% endblock %}
+    </div>
+    <div class='col-xs-12 col-sm-6'>
+        {% block middle_column %}{% endblock %}
+    </div>    
+    <div class='col-xs-12 col-sm-3'>
+        {% block right_column %}{% endblock %}
+    </div>
+</div>
+</div>
+{% endblock %}
+

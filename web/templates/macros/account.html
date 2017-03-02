@@ -1,0 +1,59 @@
+{% macro render_account(user, layout='main') %}
+{% if layout == 'main' %}
+<h3>My account</h3>
+<table class='table table-borderless'>
+    <tbody>
+    <tr>
+        <th>First name</th>
+        <td>{{user.first_name}}</td>
+    </tr>
+    <tr>
+        <th>Last name</th>
+        <td>{{user.last_name}}</td>
+    </tr>
+    <tr>
+        <th>Email</th>
+        <td>{{user.email}}</td>
+    </tr>
+    <tr>
+        <th>City</th>
+        <td>{{user.city}}</td>
+    </tr>
+    <tr>
+        <th>State</th>
+        <td>{{user.state}}</td>
+    </tr>
+    <tr>
+        <th>Country</th>
+        <td>{{user.country}}</td>
+    </tr>
+    <tr>
+        <th>Zipcode</th>
+        <td>{{user.zipcode}}</td>
+    </tr>    
+    </tbody>
+</table>
+{% endif %}
+{% endmacro %}
+
+{% macro control_sidebar(user) %}
+<div class='account-control-sidebar'>
+    <h4>
+    <a href='/my-account'><span class='control-sidebar-profile-pic'><img src='{{user.profile_pic}}' alt='profile_pic'></span>{{user.fullname}}</a>
+    </h4>
+    <div class='list-group'>
+    <a class="list-group-item" href='/my-account/edit'>Edit account</a>
+    <a class="list-group-item" href='/my-account/change-password'>Change password</a>
+    <a class="list-group-item" href='/my-account/coupons'>My coupons</a>
+    <a class="list-group-item" href='/my-account/following'>Following</a>
+    <a class="list-group-item" href='/my-account/favorites'>Favorites</a>
+    </div>
+    <h4>Merchant account</h4>
+    <div class='list-group'>
+    <a class="list-group-item" href='/my-businesses'>My businesses</a>
+    <a class="list-group-item" href='/create-business'>Create a business</a>
+    <a class="list-group-item" href='/manage-promotions'>Manage promotions</a>
+    <a class="list-group-item" href='/manage-subscriptions'>Manage subscriptions</a>
+    </div>
+</div>
+{% endmacro %}

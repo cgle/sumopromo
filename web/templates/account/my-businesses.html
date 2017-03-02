@@ -1,0 +1,16 @@
+{% extends "layouts/L39.html" %}
+
+{% import "macros/business.html" as business_macro with context %}
+{% import "macros/account.html" as account_macro %}
+
+{% block left_column %}
+{{account_macro.control_sidebar(current_user)}}
+{% endblock %}
+
+{% block right_column %}
+<div id='my-businesses-container'>
+    {% for business in businesses %}
+    {{business_macro.render_business_item(business)}}
+    {% endfor %}
+</div>
+{% endblock %}

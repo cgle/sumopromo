@@ -1,0 +1,14 @@
+{% extends "layouts/L1.html" %}
+
+{% import "macros/form.html" as form_macro %}
+
+{% block content %}
+<div id='create-business-container'>
+    <h2>Create a business</h2>
+    <div class='row'>
+        <div class='col-xs-12 col-sm-4'>
+            {{ form_macro.render_form(form, action_url='/create-business', action_text='Create', btn_class='btn btn-success', extra_attributes={'enctype': 'multipart/form-data'}) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

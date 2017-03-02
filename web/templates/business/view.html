@@ -1,0 +1,20 @@
+{% extends "layouts/L84.html" %}
+
+{% import "macros/business.html" as business_macro with context %}
+
+{% block left_column %}
+<div class='row'>
+    <div class='col-xs-12'>
+        <h3>{{business.name}}</h3>
+        {{business_macro.render_item_actions(business, class_='left')}}
+    </div>
+    <div class='col-xs-12'>
+    </div>
+
+</div>
+{% endblock %}
+
+
+{% block right_column %}
+
+{% endblock %}

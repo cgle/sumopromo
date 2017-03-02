@@ -1,0 +1,51 @@
+.business-item {
+    border-bottom: 1px solid #e6e6e6;
+    position: relative;
+    padding-bottom: 10px;
+    &:not(:first-child) {
+        padding-top: 10px;
+    }
+    &:last-child {
+        border-bottom: none;
+    }
+
+    .business-item-logo {
+        height: 135px;
+        width: 135px;
+    }
+}
+
+.business-item-actions {
+    height: 20px;
+    span {
+        cursor: pointer;
+    &:not(:first-child) {
+        margin-left: 10px;
+    }
+    }
+    
+    span[action="edit"] i {
+        color: @brand-warning;
+    }
+
+    span[action="delete"] i {
+        color: @brand-danger;
+    }
+
+    span[action="create-promotion"] i {
+        color: @brand-success;
+    }
+}
+
+.business-blob {
+    .business-item-logo {
+        height: 150px;
+        width: 150px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .business-item-actions {
+        float: left;
+    }
+}

@@ -1,0 +1,229 @@
+.top-bar {
+    height: 77px;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    right: 0;
+    border-top: 2px solid #f22613;
+}
+
+.top-bar-wrapper {
+    background: #fafafb;
+    padding-right: 10px;
+}
+
+.top-bar-content {
+    margin: auto;
+    max-width: 1096px;
+    position: relative;
+    height: 50px;
+    color: white;
+}
+
+.secondary-top-bar-wrapper {
+    background: #fafafb;
+    box-shadow: 0 1px 0 rgba(12,13,14,0.15);    
+    transition: box-shadow cubic-bezier(.165, .84, .44, 1) .25s;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;    
+}
+
+.secondary-top-bar-content {
+    max-width: 986px;
+    position: relative;
+    margin: auto;
+    line-height: 20px;
+    height: 25px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.top-bar a {
+    text-decoration: none;
+}
+
+.top-bar a:hover {
+    text-decoration: none;
+}
+
+.site-info-top-bar {
+    float: left;
+    display: inline-block;
+
+    .site-logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .site-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+        vertical-align: top;
+        line-height: 50px;
+        margin-left: 10px;
+    }
+}
+
+.top-bar .search-box {
+    margin: auto;
+    display: inline-block;
+    text-align: center;
+    padding-top: 8px;
+    max-width: 50%;
+    position: absolute;
+    left: 200px;
+    right: 200px;
+
+
+    input, input:focus {
+        line-height: 20px; 
+    }
+
+    .input-group-addon {
+        color: white;
+        background: #e74c3c;
+        border: none;
+    }
+}
+
+.top-bar .nav {
+    float: right;
+    height: 100%;
+    line-height: 50px;
+    display: inline-block;
+    padding-top: 10px;
+}
+
+.top-bar .nav > ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    float: right;
+}
+
+.top-bar .nav > ul > li {
+    display: inline;
+    float: left;
+}
+
+.top-bar .nav-link {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-weight: 600;
+    display: block;
+    text-decoration: none;
+    margin-left: 15px;
+    line-height: 32px;
+    height: 32px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333;
+    font-size: 12px;
+
+    &:hover {
+        background: #eee;
+        color: #333;
+    }
+
+    &.login-btn {
+        border: none;
+        color: white;
+        background: #337ab7;
+
+        &:hover {
+            background: #3337ab7;
+            color: white;
+        }
+    }
+}
+
+.top-bar .nav .toggle-menu-icon {display: none;}
+
+.top-bar .nav li:hover {
+    .dropdown-menu {
+        display: block;
+    }
+}
+
+.secondary-nav-link {
+    margin-right: 40px;
+    font-size: 12px;    
+}
+
+@media screen and (max-width: 768px) {
+    .top-bar-content {
+        width: 100%;        
+    }
+    
+    .site-info-top-bar .site-name {
+        display: none;
+    }
+
+    .top-bar .search-box {
+        left: 70px;
+        right: 70px;
+        max-width: 70%;
+    }
+
+    .top-bar .nav .toggle-menu-icon {
+        display: inline-block;
+        position: absolute;
+        right: -10px;
+        top: 0;
+    }
+
+    .top-bar .nav.responsive {
+        width: 100%;
+    }
+
+    .top-bar .nav .toggle-menu-icon:hover {
+    }
+
+    .top-bar .nav ul li {display: none;}
+
+    .top-bar .nav.responsive ul {
+        position: fixed;
+        left:0;
+        right:0;
+        top: 82px;
+        background: #fafafb;
+        box-shadow: 0 1px 0 rgba(12,13,14,0.15);
+    }
+
+    .top-bar .nav.responsive ul li {
+        float: none;
+        display: inline;
+        height: 50px;
+        a {
+            display: block;
+            text-align: left;
+        }
+    }
+    
+    .top-bar .nav-link {
+        line-height: 50px;
+        height: 50px;
+        color: #333;
+        font-size: 13px;
+        border: none;
+        margin-left: 0;
+
+        &.login-btn {
+            color: #333;
+            background: inherit;
+
+            &:hover {
+                background: #eee;
+                color: #333;
+            }            
+        }
+    }
+
+}

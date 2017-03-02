@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open Sans">
+        <!--
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" async> -->
+        {% assets "site_css" %}
+        <link rel='stylesheet' type="text/css" href='{{ ASSET_URL }}'></link>
+        {% endassets %}
+        {% block style %} {% endblock %}
+    </head>
+    <body>
+    {% include "topbar.html" %}
+    <div class='global-wrapper'>
+        <div class='content-wrapper'>
+            {% block content %} {% endblock %}
+        </div>
+    </div>
+    {% include "footer.html" %}
+    {% assets "vendor_js" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+    {% assets "global_js" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+    {% block script %}
+    {% endblock %}
+    </body>
+</html>

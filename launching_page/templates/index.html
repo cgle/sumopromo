@@ -1,0 +1,213 @@
+<html>
+    <head>
+        <title>SumoPromo - Promotions on the go!</title>
+        <meta charset="utf-8"><!-- html5 version of http-equiv="Content-Type"... -->
+        <meta name="description" content="A real-time, location-based, on-demand promotion platform">
+        <meta name="keywords" content="promotion,coupon,e-commerce,startup,usa,digital,mobile,real-time">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="canonical" href="/" />
+        <link rel="icon" href="/static/img/logo.min.png">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open Sans" defer>
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/purecss@0.6.2/build/forms-min.css" defer>
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/purecss@0.6.2/build/buttons-min.css" defer>
+        <style>
+            body, html {
+                font-family: 'Open Sans', sans-serif;
+                margin: 0;
+                background: #ff5a5f;
+                height: 100%;
+                min-height:500px;
+            }
+            .container {
+                height: 100%;
+                width: 100%;
+                display: table;
+                min-height: 500px;
+            }
+
+            .content {
+                margin: auto;
+                margin-top: 10%;
+                max-width: 960px;
+                padding-left: 15px;
+                padding-right: 15px;
+                text-align: center;
+                vertical-align: middle;
+                display: table-cell;
+            }
+
+            .site-info {
+            }
+            
+            .site-logo img {
+                width: 200px;
+                height: 200px;
+                max-width: 200px;
+                max-height: 200px;
+            }
+
+            .site-description {
+                color: white;
+            }
+
+            .site-name {
+                font-weight: 600;
+                font-size: 27px;
+            }
+
+            .email-box {
+                margin-top: 25px;
+            }
+            
+            input, select, option {
+                font-family: 'Open Sans', sans-serif;
+                line-height: 25px;
+                height: 35px !important;
+            }
+
+
+            input[type=email] {
+                min-width: 350px !important;
+            }
+            
+            input[type=submit] {
+                background: rgb(28, 184, 65); /* this is a green */
+                padding: 3px 17px;
+                color: white;
+                letter-spacing: 1;
+                -webkit-appearance: none;
+            }
+
+            .message {
+                display: none;
+                position: fixed;
+                top: 1%;
+                right: 5%;
+                background-color: rgba(255,255,255,0.9);
+                padding: 30px 20px;
+                font-size: 14px;                
+            }
+
+            .message-x {
+                cursor: pointer;
+                position: absolute;
+                top: 5px;
+                right: 10px;
+                color: #333 !important;
+            }
+
+            @media only screen and (max-width: 480px) {
+                input[type=email],input[type=submit], select, option {
+                    min-width: 100% !important;
+                }
+
+                input[type=submit] {
+                    margin-top: 10px;
+                }
+            }
+        </style>        
+    </head>
+    <body>
+        <div class='container'>
+        <div class='content'>
+            <div class='site-info'>
+                <div class='site-logo'>
+                    <img src='/static/img/logo.min.png'>
+                </div>
+                <div class='site-description'>
+                    <div class='site-name'>SumoPromo</div>
+                    <div class='site-slug'>A real-time, location-based, on demand promotion platform is coming soon :)</div>
+                </div>
+            </div>
+            <div class='email-box'>
+                <div class='email-blob'>
+                </div>
+                <div class='email-form'>
+                <form class='pure-form'>
+                <fieldset>
+                    <input type='email' name='email' placeholder='Your email address'>
+                    <select name='user-type'>
+                        <option value='shopper'>Shopper</option>
+                        <option value='merchant'>Merchant</option>
+                        <option value='both'>Both</option>
+                    </select>
+                    <input type='submit' class='pure-button' value='SUBMIT' name='submit-email'>
+                </fieldset>
+                </form>
+                </div>
+            </div>
+
+            <div class='message'>
+                <div class='message-body'>
+                </div>
+                <span class='message-x'>X</span>
+            </div>
+        </div>
+        </div>
+        <script
+          src="https://code.jquery.com/jquery-3.1.1.min.js"
+          integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+          crossorigin="anonymous"></script> 
+        <script>        
+            $(function() {
+                var submit_email_btn = $('input[name="submit-email"]');
+                var $email = $('input[name="email"]');
+                var $user_type =$('select[name="user-type"]');
+                var $message =$('.message');
+                var $message_body = $message.find('.message-body');
+                var $message_x = $message.find('.message-x');
+                var submit_success = false;
+
+                function flash_message(msg, cls_) {
+                    if (cls_ === 'error') {
+                        $message.css('color', 'red');
+                    } else {
+                        $message.css('color', '#4CAF50');
+                    }
+                    $message_body.html(msg);
+                    $message.show();
+                    $message_x.one('click', function() {
+                        $message.hide();
+                    });
+                }
+
+                submit_email_btn.on('click', function(e) {
+                    var email = $email.val();
+                    var user_type = $user_type.val();
+                    
+                    if (submit_success) {
+                        flash_message('You already submitted your email. Thank you!', 'error');
+                        return false;
+                    }   
+
+                    if (!email || !user_type) {
+                        flash_message('Please type in your email address', 'error');
+                        return false;
+                    }
+                    
+                    if (email.indexOf('@') === -1) {
+                        flash_message('Invalid email address', 'error');
+                        return false;
+                    }
+                    
+                    $.ajax({
+                        url: '/submit-email',
+                        type: 'POST',
+                        data: {
+                            email: email,
+                            user_type: user_type
+                        },
+                        success: function(d) {
+                            flash_message('Thank you! We will let you know as soon as we launch!', 'success');
+                            submit_success = true;
+                        },
+                        error: function(err) {
+                            flash_message(err.responseText, 'error');
+                        }
+                    });
+                    return false;
+                });
+            });
+        </script>
+    </body>
+</html>

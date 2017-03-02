@@ -1,0 +1,45 @@
+<div id='top-bar' class='top-bar'>
+    <div class='top-bar-wrapper'>
+    <div class='top-bar-content'>
+
+        <a href='/' class='site-info-top-bar'>
+            <span id='site-logo'>
+                <img  class='site-logo' src='https://s12.postimg.org/6lhbej87h/Sumo_Promo_Logo1.png'>
+            </span>
+            <span id='site-name' class='site-name'>SumoPromo</span>
+        </a>
+        
+        <div id='top-bar-search-box' class='search-box'>
+            <form>
+                <div class='input-group'>
+                <div class='input-group-addon'><i class='glyphicon glyphicon-map-marker' aria-hidden="true"></i></div>
+                <input type='text' class='form-control' placeholder='Search'>
+                <div class='input-group-addon'><i class='glyphicon glyphicon-search' aria-hidden="true"></i></div>
+                </div>
+            </form>
+        </div>
+
+        <div id='nav' class='nav'>
+            <ul>
+                {% if current_user.is_authenticated %}
+                <li><a href='/my-account' class='nav-link' id='myaccount-menu' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true'>My Account</a></li>
+                <li><a href='/logout' class='nav-link'>Log Out</a></li>
+                {% else %}
+                <li><a href='/contact' class='nav-link'>Help</a></li>
+                <li><a href='/login' class='nav-link login-btn'>Log In</a></li>
+                {% endif %}
+            </ul>
+            <span class="toggle-menu-icon">
+                <a href="javascript:void(0);" class='nav-link' style="font-size:15px;" onclick="toggleMenu()">☰</a>
+            </span>
+        </div>
+    </div>
+    </div>
+
+    <div class='secondary-top-bar-wrapper'>
+        <div class='secondary-top-bar-content'>
+            <a class='secondary-nav-link' href='/'>Discover</a>
+            <a class='secondary-nav-link' href='/deals-of-the-day'>Deals of the day</a>
+        </div>
+    </div>
+</div>

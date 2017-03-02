@@ -1,0 +1,12 @@
+{% extends "layouts/L1.html" %}
+
+{% block content %}
+<div>
+    <h4>Are you sure you want to delete {{promotion.name}}?</h4>
+    <form method='POST' action='/promotion/{{promotion.id}}/delete'>
+        <input type='submit' class='btn btn-danger' value='Delete'>
+        <a href='/promotion/{{promotion.id}}' name='cancel' class='btn btn-default'>Cancel</a>
+    </form>
+</div>
+{% endblock %}
+
