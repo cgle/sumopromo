@@ -1,6 +1,6 @@
 import os
 import datetime
-from flask import Flask, request, render_template, session
+from flask import Flask, request, render_template, session, Response
 from flask_compress import Compress
 
 basedir = os.path.dirname(os.path.realpath(__file__))
@@ -43,3 +43,10 @@ def submit_email():
 
     except IOError:
         return 'Error saving the email', 500
+
+@app.route('/robots.txt')
+def robotstxt():
+    disallow = lambda string: 'Disallow: {0}'.format(string)
+    return Response("User-agent: *\n{0}\n".format("\n".join([
+        disallow('/bin/*'),
+    ])))
