@@ -1,3 +1,3 @@
-from db import *
-from social import *
-from web import *
+from config.db import *
+from config.social import *
+from config.web import *

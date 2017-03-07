@@ -1,5 +1,3 @@
-# - *- coding: utf- 8 - *-
-
 countries = [
   {'name': 'Afghanistan', 'code': 'AF'}, 
   {'name': 'Åland Islands', 'code': 'AX'}, 

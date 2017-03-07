@@ -1,6 +1,7 @@
 import uuid
 from datetime import datetime
 from sqlalchemy import Column, DateTime
+from sqlalchemy.ext.hybrid import hybrid_property
 
 from database.models.types import GUID
 

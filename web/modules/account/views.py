@@ -6,7 +6,7 @@ from werkzeug import secure_filename
 
 from web import login_manager, db, s3, s3_buckets
 from web.modules.account import bp
-from web.modules.account.forms import LoginForm, RegisterForm, EditAccountForm
+from web.modules.account.forms import LoginForm, RegisterForm, EditAccountForm, ChangePasswordForm
 
 #
 # with email & password
@@ -19,7 +19,7 @@ def load_user(id):
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('site.index'))
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -32,7 +32,7 @@ def login():
 
         if user.check_password(password):
             login_user(user)
-            return redirect(url_for('main.index'))
+            return redirect(url_for('site.index'))
 
     return render_template('account/login.html', form=form)
 
@@ -52,7 +52,7 @@ def register():
         user = db.user.add(email=email, password=password, first_name=first_name, last_name=last_name)
         login_user(user, True)
 
-        return redirect(url_for('main.index'))
+        return redirect(url_for('site.index'))
     
     return render_template('account/register.html', form=form)
 
@@ -60,7 +60,7 @@ def register():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('main.index'))
+    return redirect(url_for('site.index'))
 
 #
 # OAuth
@@ -69,7 +69,7 @@ def logout():
 @bp.route('/auth/<provider>')
 def oauth_authorize(provider):
     if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('site.index'))
 
     oauth = OAuthSignIn.get_provider(provider)
     return oauth.authorize()
@@ -78,7 +78,7 @@ def oauth_authorize(provider):
 @bp.route('/auth/<provider>/callback')
 def oauth_callback(provider):
     if not current_user.is_anonymous:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('site.index'))
 
     oauth = OAuthSignIn.get_provider(provider)    
     profile = oauth.callback()
@@ -92,7 +92,7 @@ def oauth_callback(provider):
 
     login_user(user, True)
 
-    return redirect(url_for('main.index'))
+    return redirect(url_for('site.index'))
 
 class OAuthSignIn(object):
     providers = None
@@ -198,13 +198,25 @@ def edit_account():
     if form.validate_on_submit():
         data = form.flat_data
         profile_pic = data.pop('profile_pic')
-        filename = '{}/profile_pic/{}'.format(current_user.id, secure_filename(profile_pic.filename))
+        
+        if profile_pic.filename:
+            filename = '{}/profile_pic/{}'.format(current_user.id, secure_filename(profile_pic.filename))
+            profile_pic_url = s3.upload_file(profile_pic, filename, s3_buckets['user'])
+            data['profile_pic'] = profile_pic_url
 
-        profile_pic_url = s3.upload_file(profile_pic, filename, s3_buckets['user'])
-        data['profile_pic'] = profile_pic_url
         current_user.update(**data)
 
-        db.session.commit()
+        db.commit()
         return redirect(url_for('account.my_account'))
 
     return render_template('account/edit-account.html', form=form)
+
+@bp.route('/my-account/change-password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        db.user.update_one(current_user, password=form.new_password.data) 
+        return redirect(url_for('account.my_account'))
+
+    return render_template('account/change-password.html', form=form)

@@ -1,0 +1,131 @@
+{% macro render_item_actions(promotion, class_='right') %}
+    {% if current_user.is_authenticated %}
+    <div class='promotion-item-actions {{class_}}'>
+        <span action='analytics'><a href='/promotion/{{promotion.id}}/analytics'><i class='glyphicon glyphicon-stats'></i>Analytics</a></span>    
+        <span action='edit'><a href='/promotion/{{promotion.id}}/edit'><i class='glyphicon glyphicon-pencil'></i>Edit</a></span>
+        {% if promotion.is_activated %}
+        <span action='deactivate'><a href='/promotion/{{promotion.id}}/deactivate'><i class='glyphicon glyphicon-remove'></i>Deactivate</a></span>
+        {% else %}
+        <span action='activate'><a href='/promotion/{{promotion.id}}/activate'><i class='glyphicon glyphicon-ok'></i>Activate</a></span> 
+        {% endif %}
+        <span action='delete'><a href='/promotion/{{promotion.id}}/delete'><i class='glyphicon glyphicon-trash'></i>Delete</a></span>        
+    </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro render_claim_button(promotion) %}
+<button action='claim' data-promotion='{{promotion.id}}' class='claim-button btn btn-success btn-block {% if not promotion.is_live %} disabled {% endif %}'>CLAIM</button>
+{% endmacro %}
+
+{% macro render_promotion_type(promotion) %}
+<span class="promotion-type-label {{promotion.type}}">{{promotion.type | fmt_text}}</span>
+{% endmacro %}
+
+{% macro render_promotion_status(promotion) %}
+    {% if promotion.is_live %}
+        <span class="promotion-status active">ACTIVE</span>
+    {% else %}
+        <span class="promotion-status inactive">INACTIVE</span>
+    {% endif %}
+{% endmacro %}
+
+{% macro render_promotions_table(promotions) %}
+<div class='promotions-table-container'>
+    <table class='table table-borderless'>
+        <tbody>
+        {% for promotion in promotions %}
+            <tr>
+                <td>
+                    <div class='promotion-short-info'>
+                        <div class='promotion-short-info-item discount'>
+                            {{promotion.discount_pct}}
+                        </div>
+                        <div class='promotion-short-info-item'>
+                            <div>{{render_promotion_type(promotion)}}</div>
+                        </div>
+                    </div>
+                </td>
+                <td>                
+                <div class='row'>
+                    <div class='col-xs-12'>
+                        <b>{{promotion.name}}</b>
+                        {{render_promotion_status(promotion)}}
+                    </div>
+                    <div class='col-xs-12'>
+                        {{promotion.description}}
+                    </div>
+                </div>
+                </td>
+                <td>
+                    {{render_claim_button(promotion)}}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endmacro %}
+
+{% macro render_promotion_item(promotion) %}
+<div class='promotion-item'>
+    <div class='row'>
+        <div class='col-xs-12 col-sm-6'>
+            <h4>
+                <a href='/promotion/{{promotion.id}}'>{{promotion.name}}</a>
+                {{ render_promotion_status(promotion) }}                
+            </h4>
+        </div>
+        <div class='col-xs-12 col-sm-6'>
+            {{render_item_actions(promotion)}}
+        </div>
+    </div>
+
+    <div class='row'>
+        <div class='col-xs-12 col-sm-6'>
+            <table class='table table-borderless'>
+                <tbody>
+                    <tr>
+                        <th>Business</th>
+                        <td><a href='/business/{{promotion.business.id}}'>{{promotion.business.name}}</a></td>
+                    </tr>
+                    <tr>
+                        <th>Discount</th>
+                        <td>{{promotion.discount_pct}}</td>
+                    </tr>                    
+                    <tr>
+                        <th>Start time</th>
+                        <td>{{promotion.start_time|datetime}}</td>
+                    </tr>
+                    <tr>
+                        <th>End time</th>
+                        <td>{{promotion.end_time|datetime}}</td>
+                    </tr>
+                    <tr>
+                        <th>Total duration</th>
+                        <td>{{promotion.duration}}</td>
+                    </tr>
+                    <tr>
+                        <th>Time left</th>
+                        <td>{{promotion.time_left_str}}</td>
+                    </tr>
+                    <tr>
+                        <th>Number of claims</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Activation status</th>
+                        <td>
+                        {% if promotion.is_activated %} 
+                        <span class='activated'>ACTIVATED</span>
+                        {% else %} 
+                        <span class='deactivated'>DEACTIVATED</span>
+                        {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endmacro %}

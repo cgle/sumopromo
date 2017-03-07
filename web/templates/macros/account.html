@@ -37,23 +37,32 @@
 {% endmacro %}
 
 {% macro control_sidebar(user) %}
-<div class='account-control-sidebar'>
+<div class='account-control-sidebar' id='account-control-sidebar'>
     <h4>
     <a href='/my-account'><span class='control-sidebar-profile-pic'><img src='{{user.profile_pic}}' alt='profile_pic'></span>{{user.fullname}}</a>
+    <span onclick="toggleMenu('account-control-sidebar')" class='toggle-account-control-sidebar'>
+    <i class='glyphicon glyphicon-menu-down'></i>
+    </span>
     </h4>
+    <div class='account-control-sidebar-content'>
+
     <div class='list-group'>
-    <a class="list-group-item" href='/my-account/edit'>Edit account</a>
-    <a class="list-group-item" href='/my-account/change-password'>Change password</a>
-    <a class="list-group-item" href='/my-account/coupons'>My coupons</a>
-    <a class="list-group-item" href='/my-account/following'>Following</a>
-    <a class="list-group-item" href='/my-account/favorites'>Favorites</a>
+        <a class="list-group-item" href='/my-account/edit'>Edit account</a>
+        <a class="list-group-item" href='/my-account/change-password'>Change password</a>
+        <a class="list-group-item" href='/my-coupons'>My coupons</a>
+        <a class="list-group-item" href='/my-following'>Following</a>
+        <a class="list-group-item" href='/my-favorites'>Favorites</a>
     </div>
+
     <h4>Merchant account</h4>
     <div class='list-group'>
-    <a class="list-group-item" href='/my-businesses'>My businesses</a>
-    <a class="list-group-item" href='/create-business'>Create a business</a>
-    <a class="list-group-item" href='/manage-promotions'>Manage promotions</a>
-    <a class="list-group-item" href='/manage-subscriptions'>Manage subscriptions</a>
+        <a class="list-group-item" href='/manage-promotions'>Manage promotions</a>
+        <a class="list-group-item" href='/manage-businesses'>Manage businesses</a>
+        <a class="list-group-item" href='/create-business'>Create a business</a>
+        <a class="list-group-item" href='/create-promotion'>Create a promotion</a>
+        <a class="list-group-item" href='/manage-subscriptions'>Manage subscriptions</a>
+    </div>
+
     </div>
 </div>
 {% endmacro %}

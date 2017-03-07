@@ -58,10 +58,14 @@ class DBService(object):
         self.db.session.delete(item)
         self.db.commit()
 
+    def search(self, *args, **kwargs):
+        query = self.db.query(self.Model)
+        return self.db.search(query, *args, **kwargs)
+
 def init(db):
-    from user import UserDBService
-    from business import BusinessDBService    
-    from promotion import PromotionDBService
+    from database.services.user import UserDBService
+    from database.services.business import BusinessDBService    
+    from database.services.promotion import PromotionDBService
 
     services = {service.name: service for service in (
         UserDBService(db),

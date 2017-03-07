@@ -1,11 +1,17 @@
-{% extends "layouts/L1.html" %}
+{% extends "layouts/L39.html" %}
 
-{% block content %}
+{% import "macros/account.html" as account_macro %}
+
+{% block left_column %}
+{{account_macro.control_sidebar(current_user)}}
+{% endblock %}
+
+{% block right_column %}
 <div>
     <h4>Are you sure you want to delete {{business.name}}?</h4>
     <form method='POST' action='/business/{{business.id}}/delete'>
         <input type='submit' class='btn btn-danger' value='Delete'>
-        <a href='/business/{{business.id}}' name='cancel' class='btn btn-default'>Cancel</a>
+        <a href='/manage-businesses' name='cancel' class='btn btn-default'>Cancel</a>
     </form>
 </div>
 {% endblock %}

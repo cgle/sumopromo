@@ -1,8 +1,5 @@
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
-
 import os
+import glob
 from flask import Flask, _app_ctx_stack
 from flask_compress import Compress
 from flask_login import LoginManager
@@ -71,41 +68,46 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "account.login"
 
+######################
+# IMPORT BLUEPRINTS  #
+######################
+from web.modules.site import bp as site_views
+from web.modules.search import bp as search_views
+from web.modules.account import bp as account_views
+from web.modules.business import bp as business_views
+from web.modules.promotion import bp as promotion_views
+
+app.register_blueprint(site_views)
+app.register_blueprint(search_views)
+app.register_blueprint(account_views)
+app.register_blueprint(business_views)
+app.register_blueprint(promotion_views)
+
+
+#########################
+# SET UP TMPLT FILTERS  #
+#########################
+
+from web.core.template_filters import *
+
 #################
 # IMPORT ASSETS #
 #################
-
 assets = Environment(app)
 
 #
 # JS
 #
-
-vendor_js = Bundle(location('assets/vendor/jquery-3.1.1.min.js'), filters='jsmin', output='js/vendor.js')
-global_js = Bundle(location('assets/js/layout.js'), filters='jsmin', output='js/global.js')
+vendor_files = glob.glob(location('assets/vendor/*.js'))
+vendor_js = Bundle(vendor_files, filters='uglifyjs', output='js/vendor.js')
+global_js = Bundle(location('assets/js/layout.js'), filters='uglifyjs', output='js/global.js')
 assets.register('vendor_js', vendor_js)
 assets.register('global_js', global_js)
 
 #
 # CSS
 #
-
-site_css = Bundle(location('assets/less/site.less'),depends=['less/*.less'], filters='less,cssmin', output='css/site.css')
+dependent_files = glob.glob(location('assets/less/site/*.less'))
+site_css = Bundle(location('assets/less/site/site.less'),depends=dependent_files, filters='less,cssmin', output='css/site.css')
 assets.register('site_css', site_css)
 
-
-######################
-# IMPORT BLUEPRINTS  #
-######################
-from web import app
-from web.modules.main import bp as main
-from web.modules.static_pages import bp as static_pages
-from web.modules.account import bp as account
-from web.modules.business import bp as business
-from web.modules.promotion import bp as promotion
-
-app.register_blueprint(main)
-app.register_blueprint(static_pages)
-app.register_blueprint(account)
-app.register_blueprint(business)
-app.register_blueprint(promotion)

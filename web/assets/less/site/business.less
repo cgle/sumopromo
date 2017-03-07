@@ -16,7 +16,7 @@
 }
 
 .business-item-actions {
-    height: 20px;
+    height: 30px;
     span {
         cursor: pointer;
     &:not(:first-child) {
@@ -24,6 +24,10 @@
     }
     }
     
+    i {
+        margin-right: 1px;
+    }
+
     span[action="edit"] i {
         color: @brand-warning;
     }
@@ -35,12 +39,49 @@
     span[action="create-promotion"] i {
         color: @brand-success;
     }
+
+    span[action="link-internet-deal"] i {
+        color: @blue;
+    }    
 }
 
 .business-blob {
     .business-item-logo {
         height: 150px;
         width: 150px;
+    }
+}
+
+.business-details-container {
+    .business-details-section {        
+        margin-bottom: 10px;
+
+        h4 {
+            padding-top: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #dfdfdf;
+        }
+    }
+    
+    .business-media {
+        .business-logo {
+            width: 180px;
+            height: 180px;
+            min-width: 180px;
+            min-height: 180px;
+        }
+    }
+
+    .business-description {
+        font-size: 14px;
+    }
+}
+
+.business-info-sidebar {
+    background-color: #fafafb;
+
+    .business-map {
+        margin-bottom: 10px;
     }
 }
 

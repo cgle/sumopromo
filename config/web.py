@@ -18,6 +18,8 @@ class Config(object):
             'secret': social_config['facebook']['consumer_secret']
         }
     }
+    
+    GOOGLE_MAP_API_KEY = social_config['google']['map_api_key']
 
     S3_BUCKETS = {
         'user': 'sumopromo.user', 

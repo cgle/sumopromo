@@ -1,0 +1,97 @@
+.welcome-text {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.login-with-email-container,
+.social-login-container {
+    margin-bottom: 15px;
+}
+
+.social-button {
+    color: @white;
+    cursor: pointer;
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    line-height: 19px;
+    padding: 10px 0;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    margin:auto;
+    text-decoration: none;
+}
+
+.social-button:hover {
+    text-decoration: none;
+    color: @white;
+}
+
+.social-button:focus {
+    text-decoration: none;
+    color: @white;
+}
+
+.facebook-login-button {
+    background: #3b5998;
+    margin-bottom: 16px;
+}
+
+.google-login-button {
+    background: #db4a39;
+    margin-bottom: 20px;
+}
+
+.account-control-sidebar {
+    .control-sidebar-profile-pic {
+        margin-right: 10px;
+        img {
+            width:  45px;
+            height: 45px;
+            border-radius: 50%;
+        }
+    }
+
+    .toggle-account-control-sidebar {
+        padding: 7px 9px;
+        padding-top: 9px;
+        font-size: 17px;
+        line-height: 20px;
+        height: 36px;
+        border-radius: 3px;
+        float: right;
+        display: none;
+        cursor: pointer;
+        font-weight: 600;
+        border: 1px solid transparent;
+        &:hover {
+            background-color: #f9f9f9;
+            border: 1px solid #f9f9f9;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .account-control-sidebar {
+        margin-bottom: 30px;
+
+        .toggle-account-control-sidebar {
+            display: inline-block;      
+        }
+
+        .account-control-sidebar-content {
+            display: none;
+        }
+
+        &.responsive {            
+            .account-control-sidebar-content {
+                display: block;
+            }
+            .toggle-account-control-sidebar i {
+                .glyphicon-menu-up;
+            }
+        }
+    }
+}

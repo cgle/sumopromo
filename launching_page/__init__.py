@@ -6,8 +6,7 @@ from flask_compress import Compress
 basedir = os.path.dirname(os.path.realpath(__file__))
 location = lambda x: os.path.join(basedir, x)
 app = Flask(__name__, static_url_path='/static', static_folder=location('static'))
-app.secret_key = '\xd8z\x0bI\x11I~\x1b\n\xe2\x08\xcdh\xc1\\xb6\x06\xdbO\xa3\xf4.K<'
-
+app.secret_key = b"\xd8z\x0bI\x11I~\x1b\n\xe2\x08\xcdh\xc1\\xb6\x06\xdbO\xa3\xf4.K<"
 
 gzip = Compress(app)
 
@@ -29,16 +28,18 @@ def submit_email():
         return already_submit_message, 500
 
     try:            
-        f = open(emails_filepath, 'a+')
+        f = open(emails_filepath, 'a+', encoding='utf-8')
+        f.seek(0)
         s = f.read()
         if email in s:
             f.close()
             session['submit_email'] = email
             return already_submit_message, 500
-
+    
         f.write('{},{},{}\n'.format(now,email,user_type))
         f.close()
         session['submit_email'] = email
+
         return 'OK', 200
 
     except IOError:
@@ -47,6 +48,6 @@ def submit_email():
 @app.route('/robots.txt')
 def robotstxt():
     disallow = lambda string: 'Disallow: {0}'.format(string)
-    return Response("User-agent: *\n{0}\n".format("\n".join([
+    return Response('User-agent: *\n{0}\n'.format('\n'.join([
         disallow('/bin/*'),
     ])))

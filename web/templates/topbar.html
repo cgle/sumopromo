@@ -12,9 +12,9 @@
         <div id='top-bar-search-box' class='search-box'>
             <form>
                 <div class='input-group'>
-                <div class='input-group-addon'><i class='glyphicon glyphicon-map-marker' aria-hidden="true"></i></div>
-                <input type='text' class='form-control' placeholder='Search'>
-                <div class='input-group-addon'><i class='glyphicon glyphicon-search' aria-hidden="true"></i></div>
+                    <div class='input-group-addon'><i class='glyphicon glyphicon-search' aria-hidden="true"></i></div>
+                    <input type='text' class='form-control' placeholder='Search'>
+                    <div class='input-group-addon'><i class='glyphicon glyphicon-map-marker' aria-hidden="true"></i></div>                    
                 </div>
             </form>
         </div>
@@ -30,7 +30,7 @@
                 {% endif %}
             </ul>
             <span class="toggle-menu-icon">
-                <a href="javascript:void(0);" class='nav-link' style="font-size:15px;" onclick="toggleMenu()">☰</a>
+                <a href="javascript:void(0);" class='nav-link' style="font-size:15px;" onclick="toggleMenu('nav')">☰</a>
             </span>
         </div>
     </div>
@@ -38,8 +38,24 @@
 
     <div class='secondary-top-bar-wrapper'>
         <div class='secondary-top-bar-content'>
+            <div id='secondary-links' class='secondary-links'>
             <a class='secondary-nav-link' href='/'>Discover</a>
             <a class='secondary-nav-link' href='/deals-of-the-day'>Deals of the day</a>
+            <a class='secondary-nav-link' href='/category/restaurants'>Restaurants</a>
+            <a class='secondary-nav-link' href='/category/fashion'>Fashion</a>
+            <a class='secondary-nav-link' href='/category/beauty'>Beauty</a>
+            <a class='secondary-nav-link' href='/category/tech'>Tech</a>
+            <a class='secondary-nav-link' href='/category/home'>Home</a>
+            <a class='secondary-nav-link' href='/category/children'>Children</a>
+            <a class='secondary-nav-link' href='/category/entertainment'>Entertainment</a>
+            <a class='secondary-nav-link' href='/category/travel'>Travel</a>
+            <a class='secondary-nav-link' href='/category/autos'>Autos</a>
+            <a class='secondary-nav-link' href='/category/pets'>Pets</a>
+            </div>
+            <div class='navigate-secondary-links'>
+                <span id='nav-secondary-left' class='disabled nav-secondary-left glyphicon glyphicon-chevron-left'></span>
+                <span id='nav-secondary-right' class='nav-secondary-right glyphicon glyphicon-chevron-right'></span>
+            </div>
         </div>
     </div>
 </div>

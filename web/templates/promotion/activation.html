@@ -9,9 +9,9 @@
 
 {% block right_column %}
 <div>
-    <h4>Are you sure you want to delete {{promotion.name}}?</h4>
-    <form method='POST' action='/promotion/{{promotion.id}}/delete'>
-        <input type='submit' class='btn btn-danger' value='Delete'>
+    <h4>Are you sure you want to {{action}} {{promotion.name}}?</h4>
+    <form method='POST' action='/promotion/{{promotion.id}}/{{action}}'>
+        <input type='submit' class='btn btn-{{action}}' value='{{action | capitalize}}'>
         <a href='/manage-promotions' name='cancel' class='btn btn-default'>Cancel</a>
     </form>
 </div>

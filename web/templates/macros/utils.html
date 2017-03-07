@@ -1,0 +1,4 @@
+{% macro create_map(height='100%',width='100%',address=None) %}
+    <iframe width="{{width}}" height="{{height}}" frameborder="0" style="border:0" src="{{address | google_map_url}}">
+</iframe>
+{% endmacro %}

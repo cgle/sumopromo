@@ -23,6 +23,10 @@ class PromotionDBService(DBService):
 
         return promotion
     
+    def get_sumo_promotions_by_merchant(self, merchant):
+        promotions = [promotion for business in merchant.businesses for promotion in business.promotions]
+        return promotions
+
     def get_sumo_promotion_by_id(self, promotion_id):
         promotion = self.db.query(self.sumo_promotion_entity).filter_by(id=promotion_id).first()
         return promotion
@@ -39,6 +43,16 @@ class PromotionDBService(DBService):
         if not promotion:
             raise DBServiceError('Promotion {} not found'.format(promotion+id))
         self.delete_one(promotion)
+
+    def activate_sumo_promotion(self, promotion_id):
+        promotion = self.get_sumo_promotion_by_id(promotion_id)
+        self.update_one(promotion, is_activated=True)
+        return True
+
+    def deactivate_sumo_promotion(self, promotion_id):
+        promotion = self.get_sumo_promotion_by_id(promotion_id)
+        self.update_one(promotion, is_activated=False)
+        return True
 
     def get_internet_deal_by_id(self, deal_id):
         deal = self.db.query(self.internet_deal_entity).filter_by(id=deal_id).first()

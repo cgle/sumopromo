@@ -1,3 +1,5 @@
+from flask_login import current_user
+
 from wtforms import StringField, FileField, PasswordField, SelectField, FormField
 from wtforms import validators as vl
 
@@ -28,9 +30,13 @@ class EditAccountForm(BaseForm):
     zipcode = StringField('Zipcode',  [vl.InputRequired()])
 
 class ChangePasswordForm(BaseForm):
-    current_password = StringField('Current password', [vl.InputRequired()])
-    new_password = StringField('New password', [vl.InputRequired()])
+    current_password = PasswordField('Current password', [vl.InputRequired()])
+    new_password = PasswordField('New password', [vl.InputRequired()])
     confirm = PasswordField('Confirm password', [
         vl.InputRequired(),
         vl.EqualTo('new_password', message='Password must match')
     ])
+
+    def validate_current_password(self, field):
+        if not current_user.check_password(field.data):
+            raise vl.ValidationError('Invalid current password')

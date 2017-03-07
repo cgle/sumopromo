@@ -76,6 +76,16 @@ class S3Manager(object):
         except:
             raise
     
+    def get_files(self, bucket_name, Prefix=None):
+        if not Prefix or not bucket_name:
+            return []
+        
+        try:
+            bucket = self.buckets[bucket_name]
+            return [obj.key for obj in bucket.objects.filter(Prefix=Prefix)]
+        except:
+            raise
+
     def delete_files(self, bucket_name, filenames):
         try:
             delete_objs = []
@@ -86,7 +96,7 @@ class S3Manager(object):
                 
             resp = self.buckets[bucket_name].delete_objects(Delete={
                 'Objects': delete_objs, 
-                'Quite': 'True'
+                'Quiet': True
             })
             return resp
         except:

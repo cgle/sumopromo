@@ -1,0 +1,150 @@
+
+
+
+.promotion-type-label {
+    .label;
+    .label-default;
+    display: inline-block;
+    text-transform: uppercase;
+    &.sumo_promotion {
+        background-color: @sumo-color;
+    }
+
+    &.internet_deal {
+        background-color: @internet-deal-color;
+    }
+}
+
+.promotion-status {
+    .label;
+    .label-default;
+    display: inline-block;
+    text-transform: uppercase;
+    &.active {
+        background-color: @active-color;
+    }
+
+    &.inactive {
+        background-color: @inactive-color;
+    }
+}
+
+
+.promotion-short-info {
+    display: table-cell;
+    max-width: 125px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px 10px 5px 10px;
+
+    .promotion-short-info-item {
+        .col-xs-12;
+        margin-top: 5px;
+        text-align: center;
+        &.discount {
+            color: @green;
+            font-weight: 600;
+            font-size: 18px;
+        }
+    }
+}
+
+.promotion-item {
+    border-bottom: 1px solid #e6e6e6;
+    position: relative;
+    padding-bottom: 10px;
+    &:not(:first-child) {
+        padding-top: 10px;
+    }
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.btn-activate {
+    .btn-success;
+}
+
+.btn-deactivate {
+    .btn-grey;
+}
+
+.promotion-item-actions {
+    height: 30px;
+    span {
+        cursor: pointer;
+    &:not(:first-child) {
+        margin-left: 10px;
+    }
+    }
+    
+    i {
+        margin-right: 1px;
+    }
+
+    span[action="edit"] i {
+        color: @brand-warning;
+    }
+
+    span[action="delete"] i {
+        color: @brand-danger;
+    }
+
+    span[action="analytics"] i {
+        color: @brand-success;
+    }
+
+    span[action="activate"] i {
+        color: @active-color;
+    }
+
+    span[action="deactivate"] i {
+        color: @inactive-color;
+    }
+}
+
+.promotion-details {
+    .promotion-description {
+        font-size: 14px;
+        padding-top: 10px;
+        border-top: 1px solid #dfdfdf;
+    }
+}
+
+.promotion-info-and-claim {
+    .business-blob {
+        margin-top: 25px;
+    }
+
+    .claim-button {
+        margin-top: 10px;
+    }
+    
+    span {
+        float: right;
+        font-size: 14px;
+        margin-left: 5px;
+    }
+
+    span.price,
+    span.discount {
+        color: @green;
+        font-weight: 600;
+    }
+
+    span.price {
+        font-size: 16px;
+    }
+
+    span.original-price {
+        text-decoration: line-through;
+        line-height: 20px;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+    .promotion-item-actions {
+        float: left;
+    }
+}

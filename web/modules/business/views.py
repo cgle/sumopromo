@@ -22,22 +22,23 @@ def create_business():
             business = db.business.create(current_user.id, **data)
 
             # upload logo
-            filename = '{}/logo/{}'.format(business.id, secure_filename(logo.filename))
-            logo_url = s3.upload_file(logo, filename, s3_buckets['business'])
-            db.business.update_one(business, logo=logo_url)
+            if logo.filename:
+                filename = '{}/logo/{}'.format(business.id, secure_filename(logo.filename))
+                logo_url = s3.upload_file(logo, filename, s3_buckets['business'])
+                db.business.update_one(business, logo=logo_url)
         except:
             raise
             abort(500)
         
-        return redirect(url_for('business.view_business', business_id=business.id))
+        return redirect(url_for('business.manage_businesses', business_id=business.id))
 
     return render_template('business/create.html', form=form)
 
-@bp.route('/my-businesses')
+@bp.route('/manage-businesses')
 @login_required
-def my_businesses():
+def manage_businesses():
     businesses = db.business.get_by_merchant(current_user.id)
-    return render_template('account/my-businesses.html', businesses=businesses)
+    return render_template('business/manage-businesses.html', businesses=businesses)
 
 @bp.route('/business/<business_id>')
 def view_business(business_id):
@@ -62,8 +63,12 @@ def edit_business(business_id):
     if form.validate_on_submit():
         data = form.flat_data
         logo = data.pop('logo')
+        if logo.filename:
+            filename = '{}/logo/{}'.format(business.id, secure_filename(logo.filename))
+            logo_url = s3.upload_file(logo, filename, s3_buckets['business'])
+            data['logo'] = logo_url
         db.business.update_one(business, **data)
-        return redirect(url_for('business.view_business', business_id=business_id))
+        return redirect(url_for('business.manage_businesses'))
 
     form.address.process(None, business)
     form.social.process(None, business)
@@ -81,7 +86,13 @@ def delete_business(business_id):
         abort(403)
 
     if request.method == 'POST':
+        # delete media related to this business
+        files_to_delete = s3.get_files(s3_buckets['business'],Prefix=str(business.id))
+        if files_to_delete:
+            s3.delete_files(s3_buckets['business'], files_to_delete)
+
         db.business.delete_one(business)
-        return redirect(url_for('business.my_businesses'))
+
+        return redirect(url_for('business.manage_businesses'))
     return render_template('business/delete.html', business=business)
 

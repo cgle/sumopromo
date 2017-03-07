@@ -1,6 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.orm import scoped_session, sessionmaker, configure_mappers
+from sqlalchemy_searchable import make_searchable
+from sqlalchemy_searchable import search as sql_search
 
 import database.services as db_services
 
@@ -14,13 +16,17 @@ class SumoDB(object):
 
         self._engine = create_engine(self.uri, **engine_options)
         self._session = scoped_session(sessionmaker(bind=self.engine, **session_options), scopefunc=scopefunc)
-
-        self.Model = declarative_base(metadata=metadata)
+                
+        self.Model = declarative_base(metadata=metadata)  
         self.metadata.bind = self.engine
         
+        configure_mappers()
+        self.create_all()
+        
+        # setup services
         self._services = None
         self._register_services(services=services)        
-
+                
     @property
     def metadata(self):
         return self.Model.metadata
@@ -58,3 +64,6 @@ class SumoDB(object):
     @property
     def services(self):
         return self._services
+
+    def search(self, query, *args, **kwargs):
+        return sql_search(query, *args, **kwargs)
