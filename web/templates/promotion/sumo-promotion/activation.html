@@ -1,0 +1,17 @@
+{% extends "layouts/L39.html" %}
+
+{% import "macros/account.html" as account_macro %}
+
+{% block left_column %}
+{{ account_macro.control_sidebar(current_user) }}
+{% endblock %}
+
+{% block right_column %}
+<div>
+    <h4>Are you sure you want to {{ action }} {{ promotion.name }}?</h4>
+    <form method='POST' action="{{ url_for('promotion.{}_promotion'.format(action), promotion_id=promotion.id) }}">
+        <input type='submit' class='btn btn-{{ action }}' value='{{ action | capitalize }}'>
+        <a href="{{ url_for('promotion.manage_promotions') }}" name='cancel' class='btn btn-default'>Cancel</a>
+    </form>
+</div>
+{% endblock %}

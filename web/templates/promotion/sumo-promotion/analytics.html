@@ -1,0 +1,16 @@
+{% extends "layouts/L39.html" %}
+
+{% import "macros/account.html" as account_macro %}
+{% import "macros/form.html" as form_macro %}
+{% import "macros/business.html" as business_macro %}
+
+{% block left_column %}
+{{account_macro.control_sidebar(current_user)}}
+{% endblock %}
+
+{% block right_column %}
+<div id='promotion-analytics-container'>
+</div>
+{% endblock %}
+
+

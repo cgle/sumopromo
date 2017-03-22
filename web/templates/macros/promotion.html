@@ -1,24 +1,46 @@
 {% macro render_item_actions(promotion, class_='right') %}
     {% if current_user.is_authenticated %}
-    <div class='promotion-item-actions {{class_}}'>
-        <span action='analytics'><a href='/promotion/{{promotion.id}}/analytics'><i class='glyphicon glyphicon-stats'></i>Analytics</a></span>    
-        <span action='edit'><a href='/promotion/{{promotion.id}}/edit'><i class='glyphicon glyphicon-pencil'></i>Edit</a></span>
+    {% if promotion.is_sumo %}
+    <div class='promotion-item-actions {{ class_ }}'>
+        <span action='view-claims'><a href="{{ url_for('promotion.view_promotion_claims', promotion_id=promotion.id) }}"><span class='glyphicon glyphicon-th-large'></span>View claims</a></span>
+        <span action='analytics'><a href="{{ url_for('promotion.promotion_analytics', promotion_id=promotion.id) }}"><span class='glyphicon glyphicon-stats'></span>Analytics</a></span>
+        <span action='edit'><a href="{{ url_for('promotion.edit_promotion', promotion_id=promotion.id) }}"><span class='glyphicon glyphicon-pencil'></span>Edit</a></span>
+
         {% if promotion.is_activated %}
-        <span action='deactivate'><a href='/promotion/{{promotion.id}}/deactivate'><i class='glyphicon glyphicon-remove'></i>Deactivate</a></span>
+        <span action='deactivate'><a href="{{ url_for('promotion.deactivate_promotion', promotion_id=promotion.id) }}"><span class='glyphicon glyphicon-remove'></span>Deactivate</a></span>
         {% else %}
-        <span action='activate'><a href='/promotion/{{promotion.id}}/activate'><i class='glyphicon glyphicon-ok'></i>Activate</a></span> 
+        <span action='activate'><a href="{{ url_for('promotion.activate_promotion', promotion_id=promotion.id) }}"><span class='glyphicon glyphicon-ok'></span>Activate</a></span>
         {% endif %}
-        <span action='delete'><a href='/promotion/{{promotion.id}}/delete'><i class='glyphicon glyphicon-trash'></i>Delete</a></span>        
+
+        <span action='delete'><a href="{{ url_for('promotion.delete_promotion', promotion_id=promotion.id) }}"><span class='glyphicon glyphicon-trash'></span>Delete</a></span>
     </div>
+    {% else %}    
+    <div class='promotion-item-actions {{ class_ }}'>
+        <span action='view-claims'><a href="{{ url_for('promotion.view_deal_claims', promotion_id=promotion.id) }}"><span class='glyphicon glyphicon-th-large'></span>View claims</a></span>    
+        <span action='edit'><a href="{{ url_for('promotion.edit_deal', promotion_id=promotion.id) }}"><span class='glyphicon glyphicon-pencil'></span>Edit</a></span>
+        <span action='delete'><a href="{{ url_for('promotion.delete_deal', promotion_id=promotion.id) }}"><span class='glyphicon glyphicon-trash'></span>Delete</a></span>
+    </div>
+    {% endif %}
+
+    {% endif %}
+{% endmacro %}
+
+{% macro claim_url(promotion) %}
+    {% if promotion.is_sumo %} 
+        {{ url_for('promotion.claim_promotion', promotion_id=promotion.id) }} 
+    {% else %}
+        {{ url_for('promotion.claim_deal', promotion_id=promotion.id) }}
     {% endif %}
 {% endmacro %}
 
 {% macro render_claim_button(promotion) %}
-<button action='claim' data-promotion='{{promotion.id}}' class='claim-button btn btn-success btn-block {% if not promotion.is_live %} disabled {% endif %}'>CLAIM</button>
+<form action='{{ claim_url(promotion) }}' method='POST'>
+<button type="submit" action='claim'data-promotion='{{ promotion.id }}' class='claim-button btn btn-success btn-block {% if not promotion.is_live %} disabled {% endif %}'>CLAIM</button>
+</form>
 {% endmacro %}
 
 {% macro render_promotion_type(promotion) %}
-<span class="promotion-type-label {{promotion.type}}">{{promotion.type | fmt_text}}</span>
+<span class="promotion-type-label {{ promotion.type }}">{{ promotion.type | fmt_text }}</span>
 {% endmacro %}
 
 {% macro render_promotion_status(promotion) %}
@@ -29,6 +51,62 @@
     {% endif %}
 {% endmacro %}
 
+{% macro render_info_and_claim(promotion) %}
+    {% if promotion.type == 'internet_deal' %}
+    <div id='promotion-info-and-claim' class='promotion-info-and-claim'>
+        <div class='row'>
+            <div class='col-xs-4'><b>Start time</b></div>
+            <div class='col-xs-8'><span class='start_time'>{{ promotion.start_at|datetime_fmt }}</span></div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-4'><b>End time</b></div>
+            <div class='col-xs-8'><span class='end_time'>{{ promotion.end_at|datetime_fmt }}</span></div>
+        </div>        
+        <div class='row'>
+            <div class='col-xs-4'><b>Deal ends in</b></div>
+            <div class='col-xs-8'><span class='time-left'>{{ promotion.time_left_str }}</span></div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-12'>
+            {{ render_claim_button(promotion) }}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div id='promotion-info-and-claim' class='promotion-info-and-claim'>
+        <div class='row'>
+            <div class='col-xs-4'><b>Price</b></div>
+            <div class='col-xs-8'>
+                <span class='price'>{{ promotion.currency }} {{ promotion.offer_price|float_fmt }}</span>
+                <span class='original-price'>{{ promotion.currency }} {{ promotion.original_price|float_fmt }}</span>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-4'><b>Discount</b></div>
+            <div class='col-xs-8'><span class='discount'>{{ promotion.discount_percent|float_fmt|discount_pct_fmt }}</span></div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-4'><b>Start time</b></div>
+            <div class='col-xs-8'><span class='start_time'>{{ promotion.start_at|datetime_fmt }}</span></div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-4'><b>End time</b></div>
+            <div class='col-xs-8'><span class='end_time'>{{ promotion.end_at|datetime_fmt }}</span></div>
+        </div>        
+        <div class='row'>
+            <div class='col-xs-4'><b>Deal ends in</b></div>
+            <div class='col-xs-8'><span class='time-left'>{{ promotion.time_left_str }}</span></div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-12'>
+            {{ render_claim_button(promotion) }}
+            </div>
+        </div>
+    </div>    
+    {% endif %}
+{% endmacro %}
+
+
 {% macro render_promotions_table(promotions) %}
 <div class='promotions-table-container'>
     <table class='table table-borderless'>
@@ -38,26 +116,26 @@
                 <td>
                     <div class='promotion-short-info'>
                         <div class='promotion-short-info-item discount'>
-                            {{promotion.discount_pct}}
+                            {{ promotion.discount_percent|float_fmt|discount_pct_fmt }}
                         </div>
                         <div class='promotion-short-info-item'>
-                            <div>{{render_promotion_type(promotion)}}</div>
+                            <div>{{ render_promotion_type(promotion) }}</div>
                         </div>
                     </div>
                 </td>
-                <td>                
+                <td>
                 <div class='row'>
                     <div class='col-xs-12'>
-                        <b>{{promotion.name}}</b>
-                        {{render_promotion_status(promotion)}}
+                        <b>{{ promotion.name }}</b>
+                        {{ render_promotion_status(promotion) }}
                     </div>
                     <div class='col-xs-12'>
-                        {{promotion.description}}
+                        {{ promotion.description }}
                     </div>
                 </div>
                 </td>
                 <td>
-                    {{render_claim_button(promotion)}}
+                    {{ render_claim_button(promotion) }}
                 </td>
             </tr>
         {% endfor %}
@@ -71,12 +149,14 @@
     <div class='row'>
         <div class='col-xs-12 col-sm-6'>
             <h4>
-                <a href='/promotion/{{promotion.id}}'>{{promotion.name}}</a>
-                {{ render_promotion_status(promotion) }}                
+                <a href="{% if promotion.is_sumo %} {{ url_for('promotion.view_promotion', promotion_id=promotion.id) }} {% else %} {{ url_for('promotion.view_deal', promotion_id=promotion.id) }} {% endif %}">
+                {{ promotion.name }}
+                </a>
+                {{ render_promotion_status(promotion) }}
             </h4>
         </div>
         <div class='col-xs-12 col-sm-6'>
-            {{render_item_actions(promotion)}}
+            {{ render_item_actions(promotion) }}
         </div>
     </div>
 
@@ -86,28 +166,29 @@
                 <tbody>
                     <tr>
                         <th>Business</th>
-                        <td><a href='/business/{{promotion.business.id}}'>{{promotion.business.name}}</a></td>
+                        <td><a href="{{ url_for('business.view_business', business_id=promotion.business.id) }}">{{ promotion.business.name }}</a></td>
                     </tr>
                     <tr>
-                        <th>Discount</th>
-                        <td>{{promotion.discount_pct}}</td>
-                    </tr>                    
+                        <th>Type</th>
+                        <td>{{ render_promotion_type(promotion) }}</td>
+                    </tr>
                     <tr>
                         <th>Start time</th>
-                        <td>{{promotion.start_time|datetime}}</td>
+                        <td>{{ promotion.start_at|datetime_fmt }}</td>
                     </tr>
                     <tr>
                         <th>End time</th>
-                        <td>{{promotion.end_time|datetime}}</td>
+                        <td>{{ promotion.end_at|datetime_fmt }}</td>
                     </tr>
                     <tr>
                         <th>Total duration</th>
-                        <td>{{promotion.duration}}</td>
+                        <td>{{ promotion.duration }}</td>
                     </tr>
                     <tr>
                         <th>Time left</th>
-                        <td>{{promotion.time_left_str}}</td>
+                        <td>{{ promotion.time_left_str }}</td>
                     </tr>
+                    {% if promotion.is_sumo %}
                     <tr>
                         <th>Number of claims</th>
                         <td></td>
@@ -122,10 +203,46 @@
                         {% endif %}
                         </td>
                     </tr>
+                    {% endif %}
                 </tbody>
             </table>
         </div>
     </div>
+</div>
+{% endmacro %}
 
+
+{% macro render_promotion_card(promotion) %}
+<div class='promotion-card'>
+    <div class='promotion-card-content'>
+        <h4><a href="{{ url_for('promotion.view_promotion', promotion_id=promotion.id) }}">{{ promotion.name }}</a></h4>
+        <h5> {{ promotion.business.name }} </h5>
+        <img class='business-logo' src='{% if promotion.business.logo %} {{ promotion.business.logo }} {% endif %}' alt='business-logo'>
+        <br>
+        <p> {{ promotion.description | p_fmt(limit=100) }} </p>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro render_voucher_promotion_info(promotion) %}
+<div class='voucher-promotion-info'>
+    <div class='panel panel-default'>
+    <div class='panel-body'>
+        <div class='row'>
+            <div class='col-xs-4'>Start time</div>
+            <div class='col-xs-8'>{{ promotion.start_at }}</div>
+        </div>
+
+        <div class='row'>
+            <div class='col-xs-4'>End time</div>
+            <div class='col-xs-8'>{{ promotion.end_at }}</div>
+        </div>
+
+        <div class='row'>
+            <div class='col-xs-4'><b>Deal ends in</b></div>
+            <div class='col-xs-8'><span class='time-left'>{{ promotion.time_left_str }}</span></div>
+        </div>    
+    </div>
+    </div>       
 </div>
 {% endmacro %}

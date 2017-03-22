@@ -1,9 +1,13 @@
-from flask import render_template
+from flask import render_template, request
 from web.modules.search import bp
+from web.core import search
 
 @bp.route('/search')
 def main():
-    return render_template('search/main.html')
+    query = request.args.get('query', '')
+    promotions = search.find_promotions(query)
+    businesses = search.find_businesses(query, limit=5)
+    return render_template('search/main.html', promotions=promotions, businesses=businesses, query=query)
 
 @bp.route('/category/<category>')
 def category(category):

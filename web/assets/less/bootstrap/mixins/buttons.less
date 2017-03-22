@@ -3,6 +3,18 @@
 // Easily pump out default styles, as well as :hover, :focus, :active,
 // and disabled options for all buttons
 
+
+.btn-raised(@color) {
+    box-shadow: 0 3px 0 0 @color;
+
+    &:active, 
+    &.active {
+	    box-shadow: none;
+    	margin-bottom: -3px;
+	    margin-top: 3px;
+    }
+}
+
 .button-variant(@color; @background; @border) {
   color: @color;
   background-color: @background;
@@ -54,6 +66,8 @@
     color: @background;
     background-color: @color;
   }
+
+  //.btn-raised(darken(@background, 17%));
 }
 
 // Button sizes

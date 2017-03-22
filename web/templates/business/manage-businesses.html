@@ -10,7 +10,7 @@
 {% block right_column %}
 <div id='my-businesses-container'>
     {% for business in businesses %}
-    {{business_macro.render_business_item(business)}}
+    {{ business_macro.render_business_item(business) }}
     {% endfor %}
 </div>
 {% endblock %}

@@ -5,31 +5,31 @@
     <tbody>
     <tr>
         <th>First name</th>
-        <td>{{user.first_name}}</td>
+        <td>{{ user.first_name }}</td>
     </tr>
     <tr>
         <th>Last name</th>
-        <td>{{user.last_name}}</td>
+        <td>{{ user.last_name }}</td>
     </tr>
     <tr>
         <th>Email</th>
-        <td>{{user.email}}</td>
+        <td>{{ user.email }}</td>
     </tr>
     <tr>
         <th>City</th>
-        <td>{{user.city}}</td>
+        <td>{{ user.city }}</td>
     </tr>
     <tr>
         <th>State</th>
-        <td>{{user.state}}</td>
+        <td>{{ user.state }}</td>
     </tr>
     <tr>
         <th>Country</th>
-        <td>{{user.country}}</td>
+        <td>{{ user.country }}</td>
     </tr>
     <tr>
         <th>Zipcode</th>
-        <td>{{user.zipcode}}</td>
+        <td>{{ user.zipcode }}</td>
     </tr>    
     </tbody>
 </table>
@@ -39,7 +39,7 @@
 {% macro control_sidebar(user) %}
 <div class='account-control-sidebar' id='account-control-sidebar'>
     <h4>
-    <a href='/my-account'><span class='control-sidebar-profile-pic'><img src='{{user.profile_pic}}' alt='profile_pic'></span>{{user.fullname}}</a>
+    <a href=""><span class='control-sidebar-profile-pic'><img src='{% if user.profile_pic %} {{ user.profile_pic }} {% endif %}' alt='profile_pic'></span>{{ user.fullname }}</a>
     <span onclick="toggleMenu('account-control-sidebar')" class='toggle-account-control-sidebar'>
     <i class='glyphicon glyphicon-menu-down'></i>
     </span>
@@ -47,20 +47,22 @@
     <div class='account-control-sidebar-content'>
 
     <div class='list-group'>
-        <a class="list-group-item" href='/my-account/edit'>Edit account</a>
-        <a class="list-group-item" href='/my-account/change-password'>Change password</a>
-        <a class="list-group-item" href='/my-coupons'>My coupons</a>
-        <a class="list-group-item" href='/my-following'>Following</a>
-        <a class="list-group-item" href='/my-favorites'>Favorites</a>
+        <a class="list-group-item" href="{{ url_for('account.edit_account') }}">Edit account</a>
+        <a class="list-group-item" href="{{ url_for('account.change_password') }}">Change password</a>
+        <a class="list-group-item" href="{{ url_for('account.my_offers') }}">My offers</a>
+        <a class="list-group-item" href="{{ url_for('account.favorites') }}">Favorites</a>        
+        <a class="list-group-item" href="{{ url_for('account.watchlist') }}">Watch list</a>
     </div>
 
-    <h4>Merchant account</h4>
+    <h4>SumoPromo Merchant</h4>
     <div class='list-group'>
-        <a class="list-group-item" href='/manage-promotions'>Manage promotions</a>
-        <a class="list-group-item" href='/manage-businesses'>Manage businesses</a>
-        <a class="list-group-item" href='/create-business'>Create a business</a>
-        <a class="list-group-item" href='/create-promotion'>Create a promotion</a>
-        <a class="list-group-item" href='/manage-subscriptions'>Manage subscriptions</a>
+        <a class="list-group-item" href="{{ url_for('sumo_voucher.confirm_voucher') }}">Confirm voucher</a>
+        <a class="list-group-item" href="{{ url_for('promotion.manage_promotions') }}">Manage promotions</a>
+        <a class="list-group-item" href="{{ url_for('business.manage_businesses') }}">Manage businesses</a>
+        <a class="list-group-item" href="{{ url_for('business.create_business') }}">Create a business</a>
+        <a class="list-group-item" href="{{ url_for('promotion.create_promotion') }}">Create a promotion</a>
+        <a class="list-group-item" href="{{ url_for('promotion.link_deal') }}">Link an internet deal</a>
+        <a class="list-group-item" href="{{ url_for('account.manage_subscriptions') }}">Manage subscriptions</a>
     </div>
 
     </div>

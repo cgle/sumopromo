@@ -66,4 +66,4 @@ class SumoDB(object):
         return self._services
 
     def search(self, query, *args, **kwargs):
-        return sql_search(query, *args, **kwargs)
+        return sql_search(query, *args, **kwargs).all()

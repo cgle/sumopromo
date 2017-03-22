@@ -9,9 +9,9 @@
 {% block right_column %}
 <div>
     <h4>Are you sure you want to delete {{business.name}}?</h4>
-    <form method='POST' action='/business/{{business.id}}/delete'>
+    <form method='POST' action="{{url_for('business.delete_business', business_id=business.id)}}">
         <input type='submit' class='btn btn-danger' value='Delete'>
-        <a href='/manage-businesses' name='cancel' class='btn btn-default'>Cancel</a>
+        <a href="url_for('business.manage_businesses')" name='cancel' class='btn btn-default'>Cancel</a>
     </form>
 </div>
 {% endblock %}

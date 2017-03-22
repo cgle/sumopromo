@@ -3,11 +3,12 @@ from wtforms import StringField, FileField, TextAreaField, FormField, FieldList,
 from wtforms import validators as vl
 
 from web.core.forms.common import BaseForm, AddressForm, SocialForm
-from web.core.forms.fields import TagListField, WebsiteField
+from web.core.forms.fields import CategoryListField, WebsiteField, TagListField
 
 class CreateBusinessForm(BaseForm):
     name = StringField('Name', [vl.InputRequired()])
-    categories = TagListField('Categories', [vl.InputRequired()])
+    categories = CategoryListField('Categories', [vl.InputRequired()])
+    tags = TagListField('Tags', [vl.InputRequired()])
     logo = FileField('Logo', [])
     description = TextAreaField('Description', [vl.InputRequired()])
     website = WebsiteField('Website', [vl.Length(max=512)])

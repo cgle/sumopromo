@@ -1,10 +1,10 @@
-
-
-
 .promotion-type-label {
     .label;
     .label-default;
-    display: inline-block;
+    padding: 0.3em 0.6em 0.3em;
+    font-weight: 500;
+    font-size: 85%;
+    display: inline-block;    
     text-transform: uppercase;
     &.sumo_promotion {
         background-color: @sumo-color;
@@ -18,6 +18,9 @@
 .promotion-status {
     .label;
     .label-default;
+    padding: 0.3em 0.6em 0.3em;
+    font-weight: 500;
+    font-size: 85%;
     display: inline-block;
     text-transform: uppercase;
     &.active {
@@ -35,7 +38,7 @@
     max-width: 125px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    padding: 10px 10px 5px 10px;
+    padding: 10px 10px 5px 5px;
 
     .promotion-short-info-item {
         .col-xs-12;
@@ -70,36 +73,39 @@
 }
 
 .promotion-item-actions {
-    height: 30px;
+    padding-bottom: 5px;
+
     span {
         cursor: pointer;
-    &:not(:first-child) {
-        margin-left: 10px;
-    }
+        margin-right: 1px;
+        line-height: 20px;
+        &:not(:first-child) {
+            margin-left: 10px;
+        }
     }
     
-    i {
-        margin-right: 1px;
-    }
-
-    span[action="edit"] i {
+    [action="edit"] span {
         color: @brand-warning;
     }
 
-    span[action="delete"] i {
+    [action="delete"] span {
         color: @brand-danger;
     }
 
-    span[action="analytics"] i {
+    [action="analytics"] span {
         color: @brand-success;
     }
 
-    span[action="activate"] i {
+    [action="activate"] span {
         color: @active-color;
     }
 
-    span[action="deactivate"] i {
+    [action="deactivate"] span {
         color: @inactive-color;
+    }
+
+    [action="view-claims"] span {
+        color: @blue;
     }
 }
 
@@ -142,6 +148,28 @@
     }
 
 }
+
+
+.promotion-card {
+    min-height: 200px;
+    padding-left: 2%;
+    padding-right: 2%;
+
+    .promotion-card-content {
+        padding: 5px;
+        border: 1px solid #ddd;
+
+        .business-logo {
+            display: block;
+            width: 90%;
+            max-width: 170px;
+            max-height: 150px;
+            margin-left: 5%;
+            margin-right: 5%;
+        }
+    }
+}
+
 
 @media screen and (max-width: 768px) {
     .promotion-item-actions {

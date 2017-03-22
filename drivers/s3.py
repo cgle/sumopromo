@@ -49,6 +49,13 @@ class S3Manager(object):
             self.buckets[bucket_name] = self.client.create_bucket(Bucket=bucket_name)
         
         return self.buckets[bucket_name]
+    
+    def delete_all_bucket_objects(self, bucket_name):
+        try:
+            filenames = self.get_files(bucket_name)
+            return self.delete_files(bucket_name, filenames)
+        except:
+            raise
 
     def delete_bucket(self, bucket_name):
         try:
@@ -60,10 +67,11 @@ class S3Manager(object):
 
     def setup_buckets(self, bucket_names):
         for bucket_name in bucket_names:
-            self.create_bucket(bucket_name)    
+            self.create_bucket(bucket_name)
+        return True
 
     def get_url(self, bucket_name, filename):
-        return self._url.format(bucket_name=bucket_name, filename=filename)    
+        return self._url.format(bucket_name=bucket_name, filename=filename)
 
     def upload_file(self, f, filename, bucket_name, ExtraArgs=None):
         ExtraArgs = ExtraArgs or {
@@ -76,8 +84,8 @@ class S3Manager(object):
         except:
             raise
     
-    def get_files(self, bucket_name, Prefix=None):
-        if not Prefix or not bucket_name:
+    def get_files(self, bucket_name, Prefix=''):
+        if not bucket_name:
             return []
         
         try:
@@ -99,7 +107,6 @@ class S3Manager(object):
                 'Quiet': True
             })
             return resp
+            
         except:
             raise
-
-

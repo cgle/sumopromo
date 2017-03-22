@@ -13,7 +13,7 @@
     <h3>Edit {{promotion.name}}</h3>
     <div class='row'>
         <div class='col-xs-12 col-sm-6'>
-            {{ form_macro.render_form(form, action_url='/promotion/{}/edit'.format(promotion.id), action_text='Edit', btn_class='btn btn-warning', cancel_btn='/manage-promotions'.format(promotion.id)) }}
+            {{ form_macro.render_form(form, action_url=url_for('promotion.edit_promotion', promotion_id=promotion.id), action_text='Edit', btn_class='btn btn-warning', cancel_btn=url_for('promotion.manage_promotions') ) }}
         </div>
         <div class='col-xs-12 col-sm-6'>
             {{business_macro.render_business_blob(promotion.business)}}

@@ -1,0 +1,27 @@
+{% extends 'layouts/L1.html' %}
+
+{% import 'macros/business.html' as business_macro  %}
+{% import 'macros/promotion.html' as promotion_macro  %}
+{% import 'macros/sumo_voucher.html' as sumo_voucher_macro %}
+
+
+{% block content %}
+<div id='voucher-container' class='voucher-container'>
+    <h3>{{ voucher.promotion.name }}</h3>
+    <h5>
+        {{ promotion_macro.render_promotion_status(voucher.promotion) }}
+        {{ promotion_macro.render_promotion_type(voucher.promotion) }}
+    </h5>
+    <h5><a href='{{ url_for('business.view_business', business_id=voucher.promotion.business.id) }}'><i>{{ voucher.promotion.business.name }}</i></a> {{ voucher.promotion.business.full_address }}</h5>
+    <div class='row'>
+        <div class='col-xs-12 col-sm-7'>
+            {{ promotion_macro.render_voucher_promotion_info(voucher.promotion) }}        
+            <h4 class='sumo-voucher-code'><b>SUMO CODE: {{ voucher.sumo_code }}</b></h4>
+            <img style='width:100%; max-width: 512px;' src='{{ url_for('sumo_voucher.confirm_voucher') | url_args_fmt(id=voucher.id) | google_qr_url }}' alt='voucher-qr-code'>
+        </div>
+        <div class='col-xs-12 col-sm-5'>
+            {{ business_macro.render_business_blob(voucher.promotion.business) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -16,7 +16,7 @@
 }
 
 .business-item-actions {
-    height: 30px;
+    padding-bottom: 5px;
     span {
         cursor: pointer;
     &:not(:first-child) {
@@ -24,23 +24,23 @@
     }
     }
     
-    i {
+    span {
         margin-right: 1px;
     }
 
-    span[action="edit"] i {
+    [action="edit"] span {
         color: @brand-warning;
     }
 
-    span[action="delete"] i {
+    [action="delete"] span {
         color: @brand-danger;
     }
 
-    span[action="create-promotion"] i {
+    [action="create-promotion"] span {
         color: @brand-success;
     }
 
-    span[action="link-internet-deal"] i {
+    [action="link-internet-deal"] span {
         color: @blue;
     }    
 }

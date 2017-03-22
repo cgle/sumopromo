@@ -9,8 +9,8 @@
     <div class='login-with-email-container col-xs-12 col-sm-6'>
         <div class='row'>
         <div class='col-xs-12 col-sm-8'>
-        {{form_macro.render_form(form, action_url='/login', action_text='Log In', btn_class='btn btn-primary')}}
-        <a href='/register'>Not yet an user. Register now!</a>
+        {{ form_macro.render_form(form, action_url=url_for('account.login'), action_text='Log In', btn_class='btn btn-primary') }}
+        <a href="{{ url_for('account.register') }}">Not yet an user. Register now!</a>
         </div>
         </div>
     </div>

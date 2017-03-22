@@ -1,6 +1,33 @@
 {% extends 'layouts/L1.html' %}
 
-{% block content %}
+{% import "macros/business.html" as business_macro %}
+{% import "macros/promotion.html" as promotion_macro %}
 
+{% block content %}
+<div id='search-output-container' class='search-output-container'>
+    <h3>Search results for <i>{{ query }}</i></h3>
+    <br>
+    <div class='row'>
+        <div class='col-xs-12 col-sm-9'>
+            <div class='row'>        
+                {% for promotion in promotions %}
+                    <div class='col-xs-12 col-sm-4'>
+                    {{ promotion_macro.render_promotion_card(promotion) }}
+                    </div>
+                {% endfor %}
+            </div>
+            <br>
+        </div>
+        
+        <div class='col-xs-12 col-sm-3'>
+            <div class='search-relevant-businesses'>
+                <h4>Relevant businesses</h4>
+                {{ business_macro.render_search_results_table(businesses) }}
+            </div>
+        </div>
+
+    </div>
+
+</div>
 {% endblock %}
 

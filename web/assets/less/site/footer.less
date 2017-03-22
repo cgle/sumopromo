@@ -4,7 +4,7 @@
     right: 0;
     min-height: 150px;
     border-top: 1px solid #d5d8db;
-    margin-top: -192px;
+    margin-top: -150px;
     background: #f2f2f2;
 }
 
@@ -18,14 +18,19 @@
 }
 
 .footer-logo {
-    width: 125px;
-    height: 125px;
-    max-width: 125px;
-    max-height: 125px;
+    width: 100px;
+    height: 100px;
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.footer-links-container {
+    position: relative;
 }
 
 .footer-links-col {
-    margin-bottom: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .footer-links h5 {
@@ -41,5 +46,33 @@
 }
 
 .footer-copyright {
-    margin-top: 5px;
+    margin-top: 10px;
+}
+
+.toggle-footer-links {
+    display: none;
+   .glyphicon-chevron-down;
+}
+
+@media screen and (max-width: 768px) {
+    .footer-links-container {
+        .toggle-footer-links {
+            display: block;
+        }
+    
+        .footer-links {
+            display: none;
+        }
+        
+        &.responsive {
+            .footer-links {
+                display: block;
+            }
+
+            .toggle-footer-links {
+                margin-bottom: 10px;
+               .glyphicon-chevron-up;
+            }
+        }
+    }
 }

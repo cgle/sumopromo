@@ -40,14 +40,14 @@ def manage_businesses():
     businesses = db.business.get_by_merchant(current_user.id)
     return render_template('business/manage-businesses.html', businesses=businesses)
 
-@bp.route('/business/<business_id>')
+@bp.route('/biz/<business_id>')
 def view_business(business_id):
     business = db.business.get_by_id(business_id)
     if not business:
         abort(500)
     return render_template('business/view.html', business=business)
 
-@bp.route('/business/<business_id>/edit', methods=['GET','POST'])
+@bp.route('/biz/<business_id>/edit', methods=['GET','POST'])
 @login_required
 def edit_business(business_id):
     business = db.business.get_by_id(business_id)
@@ -75,7 +75,7 @@ def edit_business(business_id):
 
     return render_template('business/edit.html', form=form, business=business)
 
-@bp.route('/business/<business_id>/delete', methods=['GET','POST'])
+@bp.route('/biz/<business_id>/delete', methods=['GET','POST'])
 @login_required
 def delete_business(business_id):
     business = db.business.get_by_id(business_id)
@@ -96,3 +96,8 @@ def delete_business(business_id):
         return redirect(url_for('business.manage_businesses'))
     return render_template('business/delete.html', business=business)
 
+@bp.route('/biz/<business_id>/follow', methods=['POST'])
+@login_required
+def follow_business(business_id):
+    pass
+    

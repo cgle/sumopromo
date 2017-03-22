@@ -102,11 +102,11 @@
 {%- endmacro %}
 
 {% macro render_form(form, action_url='', action_text='Submit', class_='', btn_class='btn btn-default', cancel_btn='', extra_attributes={}) %}
-    <form method="POST" action="{{ action_url }}" role="form" class="{{ class_ }}" {% for k,v in extra_attributes.items() %} {{k}}={{v}} {% endfor %}>
+    <form method="POST" action="{{ action_url }}" role="form" class="{{ class_ }}" {% for k,v in extra_attributes.items() %} {{ k }}="{{ v }}" {% endfor %}>
         {{ render_form_fields(form=form, action_url=action_url) }}
         <button type="submit" class="{{ btn_class }}">{{ action_text }} </button>
         {% if cancel_btn %}
-        <a class='btn btn-default' href='{{cancel_btn}}'>Cancel</a>
+        <a class='btn btn-default' href='{{ cancel_btn }}'>Cancel</a>
         {% endif %}
     </form>
 {%- endmacro %}

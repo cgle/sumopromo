@@ -1,5 +1,5 @@
 .top-bar {
-    height: 82px;
+    height: 92px;
     position: fixed;
     z-index: 9999;
     left: 0;
@@ -25,8 +25,9 @@
 
 .secondary-top-bar-wrapper {
     background: #fafafb;
-    box-shadow: 0 1px 0 rgba(12,13,14,0.1), 0 1px 3px rgba(12,13,14,0.1), 0 4px 20px rgba(12,13,14,0.035), 0 1px 1px rgba(12,13,14,0.025);
-    transition: box-shadow cubic-bezier(.165, .84, .44, 1) .25s;
+    border-bottom: 1px solid rgba(12,13,14,0.1);
+    //box-shadow: 0 1px 0 rgba(12,13,14,0.1), 0 1px 3px rgba(12,13,14,0.1), 0 4px 20px rgba(12,13,14,0.035), 0 1px 1px rgba(12,13,14,0.025);
+    //transition: box-shadow cubic-bezier(.165, .84, .44, 1) .25s;
     position: absolute;
     top: 54px;
     left: 0;
@@ -51,7 +52,7 @@
     }
 
     .site-name {
-        font-size: 18px;
+        font-size: 22px;
         font-weight: 600;
         color: #333;
         vertical-align: top;
@@ -67,7 +68,7 @@
     padding-top: 10px;
     max-width: 50%;
     position: absolute;
-    left: 25%;
+    left: 250px;
     right: 250px;
 
 
@@ -82,6 +83,7 @@
         color: white;
         background: #e74c3c;
         border: none;
+        cursor: pointer;
     }
 }
 
@@ -150,7 +152,7 @@
     max-width: 986px;
     position: relative;
     margin: auto;
-    height: 25px;
+    height: 35px;
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 2px;
@@ -162,7 +164,8 @@
         position: absolute;
         top: 0;
         left: 0;
-        line-height: 20px;
+        right: 30;
+        line-height: 30px;
         height: 25px;
         overflow: hidden;
         transition: left 0.5s ease;        
@@ -173,7 +176,7 @@
         padding-left: 10px;
         z-index: 999;
         position: absolute;
-        line-height: 20px;
+        line-height: 30px;
         height: 25px;
         top: 0;
         right: 0;
@@ -194,14 +197,20 @@
 .secondary-nav-link {
     font-size: 12px;
     text-transform: uppercase;
-
+    overflow: hidden;
+    position: relative;
     &:first-child {
         color: @main-color;
         font-weight: 600;
     }
 
+    &:nth-child(2) {
+        color: @midnightBlue;
+        font-weight: 600;
+    }
+
     &:not(:last-child) {
-        margin-right: 40px;
+        margin-right: 70px;
     }
 }
 
@@ -240,7 +249,7 @@
         position: fixed;
         left:0;
         right:0;
-        top: 84px;
+        top: 94px;
         background: #fafafb;
         box-shadow: 0 1px 0 rgba(12,13,14,0.15);
     }
@@ -274,4 +283,9 @@
         }
     }
 
+    .secondary-nav-link {
+        &:not(:last-child) {
+            margin-right: 35px;
+        }        
+    }
 }

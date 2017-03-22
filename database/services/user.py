@@ -25,3 +25,6 @@ class UserDBService(DBService):
 
         self.db.session.delete(user)
         self.db.commit()
+
+    def get_user_active_sumo_vouchers(self, user):
+        return [v for v in user.sumo_vouchers if v.is_active]

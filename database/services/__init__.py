@@ -1,3 +1,5 @@
+from sqlalchemy import and_
+
 class DBServiceError(Exception):
     pass
 
@@ -22,10 +24,22 @@ class DBService(object):
     
     def get_all(self, limit=100):
         return self.db.query(self.Model).limit(limit).all()
+    
+    def get_or_create(self, **kwargs):
+        items = self.filter_by(**kwargs)
+        if items:
+            return items[0]
+        else:
+            return self.add(**kwargs)
 
     def filter(self, *args, **kwargs):
         limit = kwargs.pop('limit', None)
-        return self.db.query(self.Model).filter(*args).limit(limit).all()
+        filter_rule = and_(*args)
+        return self.db.query(self.Model).filter(filter_rule).limit(limit).all()
+
+    def filter_q(self, *args):
+        filter_rule = and_(*args)
+        return self.db.query(self.Model).filter(filter_rule)
 
     def filter_by(self, **kwargs):
         limit = kwargs.pop('limit', None)
@@ -64,17 +78,19 @@ class DBService(object):
 
 def init(db):
     from database.services.user import UserDBService
-    from database.services.business import BusinessDBService    
+    from database.services.business import BusinessDBService
     from database.services.promotion import PromotionDBService
+    from database.services.tag import TagDBService
+    from database.services.category import CategoryDBService
+    from database.services.sumo_voucher import SumoVoucherDBService
 
     services = {service.name: service for service in (
         UserDBService(db),
         BusinessDBService(db),
         PromotionDBService(db),
+        TagDBService(db),
+        CategoryDBService(db),
+        SumoVoucherDBService(db)
     )}
 
-    return services
-
-
-
-    
+    return services    

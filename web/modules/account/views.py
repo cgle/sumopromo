@@ -186,7 +186,7 @@ class FacebookSignIn(object):
 # Account
 #
 
-@bp.route('/my-account')
+@bp.route('/my-account', methods=['GET'])
 @login_required
 def my_account():
     return render_template('account/my-account.html')
@@ -220,3 +220,23 @@ def change_password():
         return redirect(url_for('account.my_account'))
 
     return render_template('account/change-password.html', form=form)
+
+@bp.route('/my-offers')
+@login_required
+def my_offers():
+    return render_template('account/my-offers.html')
+
+@bp.route('/watchlist')
+@login_required
+def watchlist():
+    return render_template('account/watchlist.html')
+
+@bp.route('/favorites')
+@login_required
+def favorites():
+    return render_template('account/favorites.html')
+
+@bp.route('/manage-subscriptions')
+@login_required
+def manage_subscriptions():
+    return render_template('account/manage-subscriptions.html')

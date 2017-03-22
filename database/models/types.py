@@ -1,5 +1,6 @@
+from sqlalchemy import cast
 from sqlalchemy.types import TypeDecorator, CHAR
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import UUID, ARRAY
 import uuid
 
 class GUID(TypeDecorator):
@@ -28,3 +29,7 @@ class GUID(TypeDecorator):
             return value
         else:
             return uuid.UUID(value)
+
+class CastingArray(ARRAY):
+    def bind_expression(self, bindvalue):
+        return cast(bindvalue, self)

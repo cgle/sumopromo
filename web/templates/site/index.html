@@ -1,6 +1,17 @@
 {% extends 'layouts/L1.html' %}
 
+{% import "macros/promotion.html" as promotion_macro %}
+
 {% block content %}
-<div class='main'>
+<div id='index-container' class='index-container'>
+    <h3>Trending nearby promotions</h3>
+    <br>
+    <div class='row'>
+        {% for promotion in promotions %}
+        <div class='col-xs-12 col-sm-3'>
+        {{ promotion_macro.render_promotion_card(promotion) }}
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

@@ -8,18 +8,22 @@ from database.models.types import GUID
 class ModelMixin(object):
     
     id = Column(GUID, default=uuid.uuid4, primary_key=True)
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=True)
-    updated_at = Column(DateTime, onupdate=datetime.utcnow, default=datetime.utcnow)
 
     def __init__(self, **kwargs):
-        for k,v in kwargs.iteritems():
+        for k,v in kwargs.items():
             if hasattr(self, k):
                 setattr(self, k, v)
+
+class CreatedAtMixin(object):
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=True)    
+
+class UpdatedAtMixin(object):
+    updated_at = Column(DateTime, onupdate=datetime.utcnow, default=datetime.utcnow)
 
 class UpdateMixin(object):
    
     def update(self, **kwargs):
-        for k,v in kwargs.iteritems():
+        for k,v in kwargs.items():
             if hasattr(self, k):
                 setattr(self, k, v)
 

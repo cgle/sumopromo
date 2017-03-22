@@ -4,17 +4,17 @@
 
         <a href='/' class='site-info-top-bar'>
             <span id='site-logo'>
-                <img  class='site-logo' src='https://s12.postimg.org/6lhbej87h/Sumo_Promo_Logo1.png'>
+                <img  class='site-logo' src='/static/img/logo.png'>
             </span>
             <span id='site-name' class='site-name'>SumoPromo</span>
         </a>
         
         <div id='top-bar-search-box' class='search-box'>
-            <form>
+            <form action='/search' method='GET'>
                 <div class='input-group'>
-                    <div class='input-group-addon'><i class='glyphicon glyphicon-search' aria-hidden="true"></i></div>
-                    <input type='text' class='form-control' placeholder='Search'>
-                    <div class='input-group-addon'><i class='glyphicon glyphicon-map-marker' aria-hidden="true"></i></div>                    
+                    <div class='input-group-addon'><span id='top-bar-search-location' class='glyphicon glyphicon-map-marker' aria-hidden="true"></span></div>
+                    <input id='top-bar-search-input' type='text' name='query' class='form-control' placeholder='Search promotions, deals and businesses'>
+                    <div class='input-group-addon'><span id='top-bar-search-submit' class='glyphicon glyphicon-search' aria-hidden="true"></span></div>
                 </div>
             </form>
         </div>
@@ -41,16 +41,12 @@
             <div id='secondary-links' class='secondary-links'>
             <a class='secondary-nav-link' href='/'>Discover</a>
             <a class='secondary-nav-link' href='/deals-of-the-day'>Deals of the day</a>
-            <a class='secondary-nav-link' href='/category/restaurants'>Restaurants</a>
-            <a class='secondary-nav-link' href='/category/fashion'>Fashion</a>
-            <a class='secondary-nav-link' href='/category/beauty'>Beauty</a>
-            <a class='secondary-nav-link' href='/category/tech'>Tech</a>
-            <a class='secondary-nav-link' href='/category/home'>Home</a>
-            <a class='secondary-nav-link' href='/category/children'>Children</a>
-            <a class='secondary-nav-link' href='/category/entertainment'>Entertainment</a>
+            <a class='secondary-nav-link' href='/category/food-drink'>Food & Drink</a>
+            <a class='secondary-nav-link' href='/category/beauty-spas'>Beauty & Spas</a>
+            <a class='secondary-nav-link' href='/category/health-fitness'>Health & Fitness</a>            
+            <a class='secondary-nav-link' href='/category/retail'>Retail</a>
             <a class='secondary-nav-link' href='/category/travel'>Travel</a>
-            <a class='secondary-nav-link' href='/category/autos'>Autos</a>
-            <a class='secondary-nav-link' href='/category/pets'>Pets</a>
+            <a class='secondary-nav-link' href='/category/pets'>Pets</a>            
             </div>
             <div class='navigate-secondary-links'>
                 <span id='nav-secondary-left' class='disabled nav-secondary-left glyphicon glyphicon-chevron-left'></span>

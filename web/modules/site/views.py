@@ -1,5 +1,6 @@
-from flask import render_template
+from flask import render_template, request, session
 from web.modules.site import bp
+from web.core import search
 
 #
 # STATIC PAGES
@@ -22,6 +23,6 @@ def tos():
 
 @bp.route('/')
 def index():
-    return render_template('site/index.html')
-
-
+    promotions = search.current_user_nearby_promotions()
+    businesses = search.current_user_nearby_businesses()
+    return render_template('site/index.html', promotions=promotions, businesses=businesses)

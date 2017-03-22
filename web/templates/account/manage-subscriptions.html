@@ -1,0 +1,18 @@
+{% extends "layouts/L39.html" %}
+
+{% import "macros/account.html" as account_macro %}
+{% import "macros/form.html" as form_macro %}
+
+{% block left_column %}
+{{ account_macro.control_sidebar(current_user) }}
+{% endblock %}
+
+{% block right_column %}
+<h3>Manage subscriptions</h3>
+<div class='row'>
+    <div class='col-xs-12 col-sm-6'>
+    </div>
+</div>
+{% endblock %}
+
+

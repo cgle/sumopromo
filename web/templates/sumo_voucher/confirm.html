@@ -1,0 +1,32 @@
+{% extends "layouts/L39.html" %}
+
+{% import "macros/account.html" as account_macro %}
+{% import "macros/form.html" as form_macro %}
+
+{% block left_column %}
+{{ account_macro.control_sidebar(current_user) }}
+{% endblock %}
+
+{% block right_column %}
+<div id='confirm-voucher-alert-box' class='alert alert-box' role='alert'>
+</div>
+<h3>Confirm voucher</h3>
+<br>
+<div class='row'>
+    <div class='col-xs-12 col-sm-12'>
+        <label class='scan-qr-camera-button' for='scan-qr-camera-input'><span class='glyphicon glyphicon-camera'></span> Scan QR Code</label>
+        <input class='scan-qr-camera-input' type='file' id='scan-qr-camera-input' name='scan-qr-camera-input' accept="image/*">
+        <br><br>
+    </div>
+    <div class='col-xs-12'>
+        <h4>- OR -</h4>
+    </div>
+    <div class='col-xs-12 col-sm-6'>
+        <input class='form-control' id='voucher-code' name='voucher-code' type="text" placeholder='Enter voucher code'>
+        <br>
+    </div>
+</div>
+<button id='submit-confirm-voucher' class='btn btn-success'>Confirm</button>
+{% endblock %}
+
+

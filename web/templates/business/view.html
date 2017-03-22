@@ -7,29 +7,29 @@
 {% block left_column %}
 <div id='business-details-container' class='business-details-container row'>
     <div class='col-xs-12'>
-        <h3>{{business.name}}</h3>
-        {{business_macro.render_item_actions(business, class_='left')}}
+        <h3>{{ business.name }}</h3>
+        {{ business_macro.render_item_actions(business, class_='left') }}
     </div>
     <div class='business-details-section col-xs-12'>
-        <h5><i>{{business.full_address}}</i></h5>
+        <h5><i>{{ business.full_address }}</i></h5>
     </div>
 
     <div class='business-details-section col-xs-12'>
         <div class='business-media'>
-            <img alt='business_logo' class='business-logo' src='{{business.logo}}'>
+            <img alt='business_logo' class='business-logo' src="{% if business.logo %}{{ business.logo }} {% endif %}">
         </div>
     </div>
 
     <div class='business-details-section col-xs-12'>
         <div class='business-description'>
-            <p>{{business.description}}</p>  
+            <p>{{ business.description }}</p>
         </div>
     </div>
 
     <div class='business-details-section col-xs-12'>
-        <h4>Promotions</h4>    
+        <h4>Promotions</h4>
         <div class='business-promotions'>
-            {{promotion_macro.render_promotions_table(business.promotions)}}
+            {{ promotion_macro.render_promotions_table(business.promotions) }}
         </div>
     </div>
 
@@ -56,7 +56,7 @@
             <b>Website</b>
         </div>
         <div class='col-xs-8'>
-            <a href='{{business.website}}'>{{business.website}}</a>
+            <a href='{{ business.website }}'>{{ business.website }}</a>
         </div>
     </div>
     <div class='row'>
@@ -64,7 +64,7 @@
             <b>Email</b>
         </div>
         <div class='col-xs-8'>
-            <a href='mailto:{{business.email}}'>{{business.email}}</a>
+            <a href='mailto:{{ business.email }}'>{{ business.email }}</a>
         </div>
     </div>
     <div class='row'>
@@ -72,7 +72,7 @@
             <b>Phone</b>
         </div>
         <div class='col-xs-8'>
-            {{business.phone}}
+            {{ business.phone }}
         </div>
     </div>
     <div class='row'>
@@ -80,7 +80,7 @@
             <b>Fax</b>
         </div>
         <div class='col-xs-8'>
-            {{business.fax}}
+            {{ business.fax }}
         </div>
     </div>
 

@@ -5,18 +5,18 @@
 {% import "macros/business.html" as business_macro %}
 
 {% block left_column %}
-{{account_macro.control_sidebar(current_user)}}
+{{ account_macro.control_sidebar(current_user) }}
 {% endblock %}
 
 {% block right_column %}
 <div id='edit-business-container'>
-    <h3>Edit {{business.name}}</h3>
+    <h3>Edit {{ business.name }}</h3>
     <div class='row'>
         <div class='col-xs-12 col-sm-6'>
-        {{ form_macro.render_form(form, action_url='/business/{}/edit'.format(business.id), action_text='Edit', btn_class='btn btn-warning', cancel_btn='/manage-businesses'.format(business.id), extra_attributes={'enctype': 'multipart/form-data'}) }}
+        {{ form_macro.render_form(form, action_url=url_for('business.edit_business', business_id=business.id), action_text='Edit', btn_class='btn btn-warning', cancel_btn=url_for('business.manage_businesses'), extra_attributes={'enctype': 'multipart/form-data'}) }}
         </div>
         <div class='col-xs-12 col-sm-6'>
-        {{business_macro.render_business_blob(business)}}
+        {{ business_macro.render_business_blob(business) }}
         </div>    
     </div>
 </div>
