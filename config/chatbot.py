@@ -1,5 +1,10 @@
+from config.social import social_config
+
 class Config(object):
     
+    MAX_THREADS = 16
+    MAX_WORKERS = 8    
+
     app = {
         'compress_response': True,
         'debug': True,
@@ -13,5 +18,4 @@ class Config(object):
         'num_workers': 1
     }
 
-    MAX_THREADS = 16
-    MAX_WORKERS = 8
+    social = social_config

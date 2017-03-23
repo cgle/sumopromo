@@ -15,6 +15,7 @@ cymem==1.31.2
 Cython==0.25.2
 cytoolz==0.8.2
 decorator==4.0.11
+dill==0.2.6
 docutils==0.13.1
 falcon==1.1.0
 Flask==0.12
@@ -36,13 +37,13 @@ lxml==3.7.3
 MarkupSafe==0.23
 msgpack-python==0.4.8
 murmurhash==0.26.4
-numpy==1.12.0
+numpy==1.12.1
 packaging==16.8
 pandas==0.19.2
 pathlib==1.0.1
 pbr==1.10.0
 plac==0.9.6
-preshed==0.46.4
+preshed==1.0.0
 psycopg2==2.6.2
 pycparser==2.17
 pycurl==7.43.0
@@ -59,7 +60,7 @@ s3transfer==0.1.10
 semver==2.7.5
 singledispatch==3.4.0.3
 six==1.10.0
-spacy==1.6.0
+spacy==1.7.2
 sputnik==0.9.3
 SQLAlchemy==1.1.5
 sqlalchemy-migrate==0.10.0
@@ -67,7 +68,8 @@ SQLAlchemy-Searchable==0.10.3
 SQLAlchemy-Utils==0.32.12
 sqlparse==0.2.2
 Tempita==0.5.2
-thinc==6.2.0
+termcolor==1.1.0
+thinc==6.5.2
 toolz==0.8.2
 tornado==4.4.2
 tqdm==4.11.2
@@ -76,5 +78,6 @@ uWSGI==2.0.14
 validators==0.11.2
 webassets==0.12.1
 Werkzeug==0.11.15
+wrapt==1.10.10
 WTForms==2.1
 zmq==0.0.0

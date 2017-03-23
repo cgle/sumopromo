@@ -1,6 +1,4 @@
-from config.chatbot import Config
-config = Config()
-
+from chatbot.config import config
 import logging, signal, time
 from tornado import ioloop, httpserver
 
@@ -18,7 +16,6 @@ def register_shutdown_handler(http_server):
     signal.signal(signal.SIGINT, shutdown_handler)
     signal.signal(signal.SIGTERM, shutdown_handler)
 
-
 def shutdown(server_instance):
     ioloop_instance = ioloop.IOLoop.instance()
     logging.info('Stopping server gracefully.')
@@ -33,7 +30,7 @@ def shutdown(server_instance):
     ioloop_instance.add_timeout(time.time() + 0.5, finalize)
 
 def start():
-    app = ChatbotApp(config.app)
+    app = ChatbotApp()
     http_server = httpserver.HTTPServer(app)
     http_server.listen(config.server['port'], config.server['host'])
 
