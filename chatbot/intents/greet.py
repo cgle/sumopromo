@@ -1,11 +1,13 @@
 import random
 
-import chatbot.bots.facebook.msg as facebook_msg
+import chatbot.services.facebook.msg as facebook_msg
 from chatbot.intents import Reply, Intent
 
-class GreetingReply(Reply):
+class GreetReply(Reply):
+
     __slots__ = ('text',)
-    name = 'greeting'
+
+    name = 'greet'
     texts = [
         'Hey there, welcome to SumoPromo :D!',
         'Howdy! Welcome to SumoPromo :D!',
@@ -25,12 +27,12 @@ class GreetingReply(Reply):
     def to_facebook(self):
         return facebook_msg.Message(text=self.text)
 
-class GreetingIntent(Intent):
+class GreetIntent(Intent):
     
-    name = 'greeting'
+    name = 'greet'
 
     def __init__(self, *args, **kwargs):
-        super(GreetingIntent, self).__init__(*args, **kwargs)
+        super(GreetIntent, self).__init__(*args, **kwargs)
 
     def process(self):
-        return GreetingReply()
+        return GreetReply()

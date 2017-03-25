@@ -2,15 +2,15 @@ import logging
 
 from tornado import gen
 
-from chatbot.bots import Bot
-from chatbot.bots.facebook import msg
+from chatbot.services import Service
+from chatbot.services.facebook import msg
 
-class FacebookBot(Bot):
+class FacebookService(Service):
         
     name = 'facebook'
 
     def __init__(self, *args, **kwargs):
-        super(FacebookBot, self).__init__(*args, **kwargs)
+        super(FacebookService, self).__init__(*args, **kwargs)
         self._ready = True
 
     @property
@@ -19,20 +19,20 @@ class FacebookBot(Bot):
 
     @gen.coroutine
     def start(self):
-        bot_settings = [msg.SettingRequest(setting_type='domain_whitelisting', 
+        settings = [msg.SettingRequest(setting_type='domain_whitelisting', 
                                            whitelisted_domains=['https://www.sumopromo.com'], 
                                            domain_action_type='add'),
-                        msg.SettingRequest(setting_type='greeting', 
+                    msg.SettingRequest(setting_type='greeting', 
                                            greeting={'text': 'SumoPromo - A real-time, location-based, on-demand promotion platform.'}),]
 
-        yield [self.fetch(setting.to_http_request()) for setting in bot_settings]
+        yield [self.fetch(setting.to_http_request()) for setting in settings]
         self._ready = True
     
     @gen.coroutine
     def handle_incoming_data(self, data):
-        logging.debug('Facebook bot handling incoming data ', data)
+        logging.debug('Facebook service handling incoming data ', data)
         if not self.ready:
-            logging.error('Facebook bot is not ready yet')
+            logging.error('Facebook service is not ready yet')
             return
 
         message_requests = []
@@ -44,15 +44,14 @@ class FacebookBot(Bot):
             except KeyError:
                 continue
         
-        logging.debug('Facebook bot sending replies to client')
+        logging.debug('Facebook service sending replies to client')
         try:
             yield [ self.fetch(request.to_http_request()) for request in message_requests ]
         except Exception as e:
             logging.error(e)
 
         return
-        
-    
+            
     @gen.coroutine    
     def generate_message_request(self, event):
         text = event['message']['text']

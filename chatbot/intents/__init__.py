@@ -49,18 +49,22 @@ class IntentManager(object):
     @gen.coroutine
     def reply(self, text):
         #TODO USE NLP HERE TO FIND THE CORRECT INTENT
-        intent = self.get_intent('greeting')
+        intent = self.get_intent('greet')
         return intent.process()
 
 def setup_intents(application):
-    from chatbot.intents.greeting import GreetingIntent
+    from chatbot.intents.greet import GreetIntent
+    from chatbot.intents.affirm import AffirmIntent
+    from chatbot.intents.suggest import SuggestIntent
     from chatbot.intents.search import SearchIntent
     from chatbot.intents.other import OtherIntent
 
     manager = IntentManager(application=application)
    
-    manager.register_intent(GreetingIntent(manager))
-    manager.register_intent(SearchIntent(manager))
+    manager.register_intent(GreetIntent(manager))
+    manager.register_intent(AffirmIntent(manager))
+    manager.register_intent(SuggestIntent(manager))    
+    manager.register_intent(SearchIntent(manager))    
     manager.register_intent(OtherIntent(manager))
     
     return manager

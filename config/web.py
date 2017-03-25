@@ -26,6 +26,8 @@ class Config(object):
         'business': 'sumopromo.business', 
         'promotion': 'sumopromo.promotion',
     }
+    
+    DEMO = True
 
 class DevConfig(Config):
     DEBUG = True

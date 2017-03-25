@@ -7,7 +7,7 @@ class FacebookWebhookHandler(web.RequestHandler):
 
     @property
     def bot(self):
-        return self.application.bot_manager.facebook
+        return self.application.services.facebook
 
     @web.asynchronous
     def get(self):

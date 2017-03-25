@@ -5,10 +5,22 @@
 {% block content %}
 <div id='login-container'>
     <h2 class='welcome-text'>Welcome to SumoPromo!</h2>
+
     <div class='row'>
     <div class='login-with-email-container col-xs-12 col-sm-6'>
         <div class='row'>
         <div class='col-xs-12 col-sm-8'>
+        {% if config['DEMO'] %}
+        <div class="alert alert-info" role="alert">
+            <table class='table table-borderless'>
+                <tbody> 
+                    <tr><th>Email</th><td>demo@sumo.promo</td></tr>
+                    <tr><th>Password</th><td>demo</td></tr>
+                </tbody>
+            </table>
+        </div>
+        {% endif %}        
+
         {{ form_macro.render_form(form, action_url=url_for('account.login'), action_text='Log In', btn_class='btn btn-primary') }}
         <a href="{{ url_for('account.register') }}">Not yet an user. Register now!</a>
         </div>

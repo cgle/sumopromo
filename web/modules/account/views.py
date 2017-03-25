@@ -8,6 +8,8 @@ from web import login_manager, db, s3, s3_buckets
 from web.modules.account import bp
 from web.modules.account.forms import LoginForm, RegisterForm, EditAccountForm, ChangePasswordForm
 
+from web.core.decorators import demo_only
+
 #
 # with email & password
 #
@@ -37,7 +39,8 @@ def login():
     return render_template('account/login.html', form=form)
 
 @bp.route('/register', methods=['GET', 'POST'])
-def register():
+@demo_only
+def register():    
     form = RegisterForm()
     if form.validate_on_submit():
         email = form.email.data
@@ -67,6 +70,7 @@ def logout():
 #
 
 @bp.route('/auth/<provider>')
+@demo_only
 def oauth_authorize(provider):
     if current_user.is_authenticated:
         return redirect(url_for('site.index'))
@@ -76,6 +80,7 @@ def oauth_authorize(provider):
 
 
 @bp.route('/auth/<provider>/callback')
+@demo_only
 def oauth_callback(provider):
     if not current_user.is_anonymous:
         return redirect(url_for('site.index'))
@@ -213,6 +218,7 @@ def edit_account():
 
 @bp.route('/my-account/change-password', methods=['GET', 'POST'])
 @login_required
+@demo_only
 def change_password():
     form = ChangePasswordForm()
     if form.validate_on_submit():
