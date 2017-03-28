@@ -193,7 +193,7 @@ def delete_deal(promotion_id):
     promotion = db.promotion.get_internet_deal_by_id(promotion_id)
     return render_template('promotion/internet-deal/delete.html', promotion=promotion)
 
-@bp.route('/deals/<promotion_id>/claimers')
+@bp.route('/deals/<promotion_id>/view-claims')
 @login_required
 def view_deal_claims(promotion_id):
     return render_template('promotion/internet-deal/view-claims.html')

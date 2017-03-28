@@ -6,7 +6,7 @@ from web.core import search
 def main():
     query = request.args.get('query', '')
     promotions = search.find_promotions(query)
-    businesses = search.find_businesses(query, limit=5)
+    businesses = [promotion.business for promotion in promotions]
     return render_template('search/main.html', promotions=promotions, businesses=businesses, query=query)
 
 @bp.route('/category/<category>')

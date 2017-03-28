@@ -36,9 +36,9 @@ class ServiceManager(object):
         return self.application.http_client
 
     @gen.coroutine
-    def generate_reply(self, text):
-        reply = yield self.application.intent_manager.reply(text)
-        return reply
+    def generate_replies(self, text):
+        replies = yield self.application.intent_manager.reply(text)
+        return replies
 
 def setup_services(app):
     from chatbot.services.facebook import FacebookService

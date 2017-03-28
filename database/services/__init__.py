@@ -15,6 +15,9 @@ class DBService(object):
             raise AttributeError('service {} exists in db'.format(self.name))
         
         setattr(db, self.name, self)
+    
+    def query(self):
+        return self.db.query(self.Model)
 
     def add(self, **kwargs):
         item = self.Model(**kwargs)

@@ -14,19 +14,21 @@ class ModelMixin(object):
             if hasattr(self, k):
                 setattr(self, k, v)
 
+    def update(self, **kwargs):
+        for k,v in kwargs.items():
+            if hasattr(self, k):
+                setattr(self, k, v)
+    
+    def to_dict(self):
+        raise NotImplementedError
+        
+
 class CreatedAtMixin(object):
     created_at = Column(DateTime, default=datetime.utcnow, nullable=True)    
 
 class UpdatedAtMixin(object):
     updated_at = Column(DateTime, onupdate=datetime.utcnow, default=datetime.utcnow)
-
-class UpdateMixin(object):
    
-    def update(self, **kwargs):
-        for k,v in kwargs.items():
-            if hasattr(self, k):
-                setattr(self, k, v)
-
 class UserMixin(object):
 
     @property

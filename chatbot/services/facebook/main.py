@@ -39,8 +39,8 @@ class FacebookService(Service):
         message_events = data['entry'][0]['messaging']
         for event in message_events:
             try:
-                request = yield self.generate_message_request(event)
-                message_requests.append(request)
+                requests = yield self.generate_message_requests(event)
+                message_requests += requests
             except KeyError:
                 continue
         
@@ -52,14 +52,15 @@ class FacebookService(Service):
 
         return
             
-    @gen.coroutine    
-    def generate_message_request(self, event):
+    @gen.coroutine
+    def generate_message_requests(self, event):
         text = event['message']['text']
         sender_id = event['sender']['id']
 
         recipient = msg.Recipient(recipient_id=sender_id)
         
-        reply = yield self.manager.generate_reply(text)
+        replies = yield self.manager.generate_replies(text)
+        
+        requests = [ msg.MessageRequest(recipient, reply.to_facebook()) for reply in replies ]
 
-        message_request = msg.MessageRequest(recipient, reply.to_facebook())
-        return message_request
+        return requests

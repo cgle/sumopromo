@@ -9,7 +9,7 @@ from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from database import Model, metadata
 from database.models.enums import days_of_week_enum, business_types_enum
 from database.models.types import GUID, CastingArray
-from database.models.mixins import UpdateMixin, ModelMixin, CreatedAtMixin, UpdatedAtMixin, UserMixin
+from database.models.mixins import  ModelMixin, CreatedAtMixin, UpdatedAtMixin, UserMixin
 
 from sqlalchemy_utils.types import TSVectorType
 
@@ -31,7 +31,7 @@ user_promotion_watchlist_table = Table('user_promotion_watchlist', metadata,
     Column('created_at', DateTime, default=datetime.now)
 )
 
-class User(Model, UpdateMixin, ModelMixin, CreatedAtMixin, UpdatedAtMixin, UserMixin):
+class User(Model, ModelMixin, CreatedAtMixin, UpdatedAtMixin, UserMixin):
 
     __tablename__ = 'user'
     
@@ -45,9 +45,9 @@ class User(Model, UpdateMixin, ModelMixin, CreatedAtMixin, UpdatedAtMixin, UserM
     state = Column(String(255))
     country = Column(String(10), default='US')
     zipcode = Column(String(20))
+    social_accounts = Column(JSONB)
 
-    businesses = relationship('Business', backref='merchant')
-    
+    businesses = relationship('Business', backref='merchant')    
     following = relationship('Business', secondary=user_follow_business_table, backref='followers')
     watchlist = relationship('Promotion', secondary=user_promotion_watchlist_table, backref='watchers')
 
@@ -80,17 +80,17 @@ business_to_tag_table = Table('business_to_tag', metadata,
     Column('tag_id', GUID, ForeignKey('tag.id'))
 )
 
-class Category(Model, UpdateMixin, ModelMixin, CreatedAtMixin, UpdatedAtMixin):
+class Category(Model, ModelMixin, CreatedAtMixin, UpdatedAtMixin):
     __tablename__ = 'category'
     name = Column(String(200))
     search_vector = Column(TSVectorType('name'))
 
-class Tag(Model, UpdateMixin, ModelMixin, CreatedAtMixin, UpdatedAtMixin):
+class Tag(Model,  ModelMixin, CreatedAtMixin, UpdatedAtMixin):
     __tablename__ = 'tag'
     name = Column(String(200))    
     search_vector = Column(TSVectorType('name'))
 
-class Business(Model, UpdateMixin, ModelMixin, CreatedAtMixin, UpdatedAtMixin):
+class Business(Model, ModelMixin, CreatedAtMixin, UpdatedAtMixin):
 
     __tablename__ = 'business'
 
@@ -126,7 +126,25 @@ class Business(Model, UpdateMixin, ModelMixin, CreatedAtMixin, UpdatedAtMixin):
     @hybrid_property
     def full_address(self):
         state = self.state if self.state != 'N/A' else ''
-        return ', '.join([self.address, self.city, self.state, self.country, self.zipcode])   
+        return ', '.join([self.address, self.city, self.state, self.country, self.zipcode])
+
+
+    def to_dict(self):
+        return {
+            'id': str(self.id),
+            'name': self.name,
+            'description': str(self.description),
+            'type': self.type,
+            'logo': self.logo,
+            'address': self.address,
+            'city': self.city,
+            'state': self.state,
+            'country': self.country,
+            'zipcode': self.zipcode,
+            'website': self.website,
+            'email': self.email,
+            'phone': self.phone
+        }
 
 #############
 # PROMOTION #
@@ -137,7 +155,7 @@ promotion_to_tag_table = Table('promotion_to_tag', metadata,
     Column('tag_id', GUID, ForeignKey('tag.id'))
 )
 
-class Promotion(Model, UpdateMixin, ModelMixin, CreatedAtMixin, UpdatedAtMixin):
+class Promotion(Model, ModelMixin, CreatedAtMixin, UpdatedAtMixin):
     
     __tablename__ = 'promotion'
     
@@ -229,6 +247,20 @@ class InternetDeal(Promotion):
         if self.time_left:
             return True
         return False
+    
+    def to_dict(self):
+        return {
+            'id': str(self.id),
+            'type': self.type,
+            'business': self.business.to_dict(),
+            'name': self.name,
+            'description': self.description,
+            'url': self.url,
+            'promo_code': self.promo_code,
+            'is_live': self.is_live,
+            'start_at': str(self.start_at),
+            'end_at': str(self.end_at)
+        }
 
 class SumoPromotion(Promotion):
     
@@ -254,11 +286,29 @@ class SumoPromotion(Promotion):
 
         return False
 
+    def to_dict(self):
+        return {
+            'id': str(self.id),
+            'type': self.type,
+            'business': self.business.to_dict(),
+            'name': self.name,
+            'description': self.description,
+            'offer_price': self.offer_price,
+            'original_price': self.original_price,
+            'discount_percent': self.discount_percent,
+            'total_quantity': self.total_quantity,
+            'max_quantity_per_person': self.max_quantity_per_person,
+            'is_activated': self.is_activated,
+            'is_live': self.is_live,
+            'start_at': str(self.start_at),
+            'end_at': str(self.end_at)
+        }
+
 def generate_sumo_code(context):
     id = context.current_parameters.get('id')
     return get_alpha_ID(id.int >> 64 - 1)
 
-class SumoVoucher(Model, ModelMixin, UpdateMixin, CreatedAtMixin, UpdatedAtMixin):
+class SumoVoucher(Model, ModelMixin, CreatedAtMixin, UpdatedAtMixin):
    
     __tablename__ = 'sumo_voucher'
         

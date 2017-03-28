@@ -1,5 +1,7 @@
 import random
 
+from tornado import gen
+
 import chatbot.services.facebook.msg as facebook_msg
 from chatbot.intents import Reply, Intent
 
@@ -27,6 +29,9 @@ class GreetReply(Reply):
     def to_facebook(self):
         return facebook_msg.Message(text=self.text)
 
+class LinkAccountReply(Reply):
+    pass
+
 class GreetIntent(Intent):
     
     name = 'greet'
@@ -34,5 +39,6 @@ class GreetIntent(Intent):
     def __init__(self, *args, **kwargs):
         super(GreetIntent, self).__init__(*args, **kwargs)
 
-    def process(self):
-        return GreetReply()
+    @gen.coroutine
+    def process(self, text):
+        return [GreetReply()]

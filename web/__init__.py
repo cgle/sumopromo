@@ -78,6 +78,7 @@ from web.modules.account import bp as account_views
 from web.modules.business import bp as business_views
 from web.modules.promotion import bp as promotion_views
 from web.modules.sumo_voucher import bp as sumo_voucher_views
+from web.modules.api import bp as api_views
 
 app.register_blueprint(site_views)
 app.register_blueprint(search_views)
@@ -85,6 +86,7 @@ app.register_blueprint(account_views)
 app.register_blueprint(business_views)
 app.register_blueprint(promotion_views)
 app.register_blueprint(sumo_voucher_views)
+app.register_blueprint(api_views, url_prefix=app.config['API_URL_PREFIX'])
 
 #########################
 # SET UP TMPLT FILTERS  #

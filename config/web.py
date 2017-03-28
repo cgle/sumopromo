@@ -1,6 +1,9 @@
 from config.social import social_config
 
 class Config(object):
+
+    API_URL_PREFIX = '/api/v1'
+
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
@@ -27,12 +30,14 @@ class Config(object):
         'promotion': 'sumopromo.promotion',
     }
     
-    DEMO = True
+    DEMO = False
 
 class DevConfig(Config):
+
     DEBUG = True
     TESTING = True
 
 class ProdConfig(Config):
+
     DEBUG = False
     TESTING = False

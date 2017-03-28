@@ -215,10 +215,9 @@
 {% macro render_promotion_card(promotion) %}
 <div class='promotion-card'>
     <div class='promotion-card-content'>
+        <img class='business-logo' src='{% if promotion.business.logo %} {{ promotion.business.logo }} {% endif %}' alt='business-logo'>
         <h4><a href="{{ url_for('promotion.view_promotion', promotion_id=promotion.id) }}">{{ promotion.name }}</a></h4>
         <h5> {{ promotion.business.name }} </h5>
-        <img class='business-logo' src='{% if promotion.business.logo %} {{ promotion.business.logo }} {% endif %}' alt='business-logo'>
-        <br>
         <p> {{ promotion.description | p_fmt(limit=100) }} </p>
     </div>
 </div>

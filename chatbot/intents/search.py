@@ -1,8 +1,55 @@
-from chatbot.intents import Intent
+import ujson
+from tornado import gen
+
+import chatbot.services.facebook.msg as facebook_msg
+from chatbot.intents import Reply, Intent
+
+from chatbot.misc.router import url_for
+
+class PromotionsReply(Reply):
+    
+    def __init__(self, promotions=None):
+        self.promotions = promotions or []
+
+    def to_dict(self):
+        return self.promotions
+
+    def to_facebook(self):
+        elements = [self._to_facebook_card(promotion) for promotion in self.promotions]
+        template = facebook_msg.GenericTemplate(elements)
+        attachment = facebook_msg.TemplateAttachment(template)
+        message = facebook_msg.Message(attachment=attachment)
+        return message
+
+    def _to_facebook_card(self, promotion):
+        view_promotion_url = url_for('web.view_promo', promotion_id=promotion['id'])
+        claim_promotion_url = url_for('api.claim_promo', promotion_id=promotion['id'])
+
+        default_action = facebook_msg.WebUrlButton('', view_promotion_url)
+        view_button = facebook_msg.WebUrlButton('View', view_promotion_url)
+        claim_button = facebook_msg.WebUrlButton('Claim', claim_promotion_url)
+
+        element = facebook_msg.Element(title=promotion['name'],
+                                       subtitle=promotion['description'],
+                                       image_url=promotion['business']['logo'],
+                                       default_action=default_action,
+                                       buttons=[view_button, claim_button])
+
+        return element
 
 class SearchIntent(Intent):
     
-    name = 'greeting'
+    name = 'search'
     
     def __init__(self, *args, **kwargs):
         super(SearchIntent, self).__init__(*args, **kwargs)
+    
+    @gen.coroutine
+    def process(self, text):
+        search_url = url_for('api.search', query=text)
+        resp = yield self.fetch(search_url)
+        data = ujson.loads(resp.body)
+        promotions = data['promotions']
+
+        return [PromotionsReply(promotions)]
+        

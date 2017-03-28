@@ -57,9 +57,11 @@ rauth==0.7.3
 redis==2.10.5
 requests==2.13.0
 s3transfer==0.1.10
+scikit-learn==0.18.1
 semver==2.7.5
 singledispatch==3.4.0.3
 six==1.10.0
+sklearn==0.0
 spacy==1.7.2
 sputnik==0.9.3
 SQLAlchemy==1.1.5
