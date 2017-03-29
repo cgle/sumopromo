@@ -30,7 +30,7 @@ class Config(object):
         'promotion': 'sumopromo.promotion',
     }
     
-    DEMO = True
+    DEMO = False
 
 class DevConfig(Config):
 

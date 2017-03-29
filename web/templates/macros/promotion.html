@@ -220,9 +220,9 @@
 <div class='promotion-card'>
     <div class='promotion-card-content'>
         <img class='business-logo' src='{% if promotion.business.logo %} {{ promotion.business.logo }} {% endif %}' alt='business-logo'>
-        <h4 class='promotion-card-header'><a href="{{ url_for('promotion.view_promotion', promotion_id=promotion.id) }}">{{ promotion.name | trim_fmt(limit=80 )}}</a></h4>
+        <h4 class='promotion-card-header'><a href="{{ url_for('promotion.view_promotion', promotion_id=promotion.id) }}">{{ promotion.name | trim_fmt(limit=60 )}}</a></h4>
         <h5 class='promotion-card-business-name'> {{ promotion.business.name }} </h5>
-        <p class='promotion-card-info'> {{ promotion.description | trim_fmt(limit=100) }} </p>
+        <p class='promotion-card-info'> {{ promotion.description | trim_fmt(limit=70) }} </p>
     </div>
 </div>
 {% endmacro %}
