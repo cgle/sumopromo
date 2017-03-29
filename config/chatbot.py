@@ -5,7 +5,7 @@ class Config(object):
     MAX_THREADS = 16
     MAX_WORKERS = 8    
     
-    web_location_base = 'https://demo.sumopromo.com'
+    web_location_base = 'http://demo.sumopromo.com'
 
     app = {
         'compress_response': True,
