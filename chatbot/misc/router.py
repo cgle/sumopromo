@@ -2,11 +2,12 @@ from tornado.escape import url_escape
 
 from chatbot.config import config
 
+location = lambda x: config.web_location_base + x
+
 # API
-api_search = 'http://localhost:8000/api/v1/search?query={query}'
+api_search = location('/api/v1/search?query={query}')
 
 # WEB
-location = lambda x: config.web_location_base + x
 
 web_view_promo = location('/promos/{promotion_id}')
 web_claim_promo = location('/promos/{promotion_id}/claim')
