@@ -223,6 +223,7 @@
         <h4 class='promotion-card-header'><a href="{{ url_for('promotion.view_promotion', promotion_id=promotion.id) }}">{{ promotion.name | trim_fmt(limit=60 )}}</a></h4>
         <h5 class='promotion-card-business-name'> {{ promotion.business.name }} </h5>
         <p class='promotion-card-info'> {{ promotion.description | trim_fmt(limit=70) }} </p>
+        <p class='promotion-card-time-left'> Ends in: {{ promotion.time_left_str }} </p>
     </div>
 </div>
 {% endmacro %}

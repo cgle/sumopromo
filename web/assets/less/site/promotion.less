@@ -159,6 +159,7 @@
     .promotion-card-content {
         padding: 5px;
         border: 1px solid #ddd;
+        height: 342px;
 
         .business-logo {
             display: block;
@@ -170,15 +171,22 @@
         }
 
         .promotion-card-header {
-            height: 35px;
+            max-height: 35px;
         }
 
         .promotion-card-business-name {
-            height: 15x;
+            max-height: 15x;
         }
 
         .promotion-card-info {
-            height: 35px;
+            max-height: 35px;
+        }
+
+        .promotion-card-time-left {
+            font-size: 15px;
+            font-weight: bold;
+            color: @main-color;
+            text-align: right;
         }
     }
 }
