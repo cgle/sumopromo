@@ -1,3 +1,6 @@
+import os
+import logging
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker, configure_mappers
@@ -21,12 +24,17 @@ class SumoDB(object):
         self.metadata.bind = self.engine
         
         configure_mappers()
-        self.create_all()
         
         # setup services
         self._services = None
         self._register_services(services=services)        
-                
+    
+    def drop_all(self):
+        self.metadata.drop_all()   
+
+    def create_all(self):
+        self.metadata.create_all()
+
     @property
     def metadata(self):
         return self.Model.metadata
@@ -49,12 +57,6 @@ class SumoDB(object):
         except:
             self.session.rollback()
             raise
-
-    def drop_all(self):
-        self.metadata.drop_all()
-    
-    def create_all(self):
-        self.metadata.create_all()
 
     def _register_services(self, services=None):
         if self._services is None:

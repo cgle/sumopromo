@@ -24,5 +24,4 @@ def tos():
 @bp.route('/')
 def index():
     promotions = search.current_user_nearby_promotions()
-    businesses = search.current_user_nearby_businesses()
-    return render_template('site/index.html', promotions=promotions, businesses=businesses)
+    return render_template('site/index.html', promotions=promotions, businesses=[])

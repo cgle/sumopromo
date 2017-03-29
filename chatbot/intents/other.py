@@ -10,5 +10,5 @@ class OtherIntent(Intent):
         super(OtherIntent, self).__init__(*args, **kwargs)
 
     @gen.coroutine
-    def process(self, text):        
+    def process(self):
         return [TextReply(text='Sorry, we are not able to understand your message :( Please try again!')]

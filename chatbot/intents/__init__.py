@@ -2,6 +2,7 @@ import re
 from tornado import ioloop, gen
 
 from chatbot.services.facebook import msg as facebook_msg
+from chatbot.nlu.simple import SimpleNLU
 
 class Reply(object):   
 
@@ -40,14 +41,16 @@ class IntentManager(object):
     def __init__(self, application=None):
         self.application = application        
         self.io_loop = ioloop.IOLoop.instance()
-
         self._intents = {}
+
+        # SET UP NLP ENGINE HERE, USE SIMPLENLP FOR NOW
+        self.nlp = SimpleNLU(self)
 
     @property
     def intents(self):
         return self._intents
 
-    def get_intent(self, name):
+    def get(self, name):
         try:
             return self._intents[name]
         except KeyError:
@@ -67,32 +70,12 @@ class IntentManager(object):
 
     @gen.coroutine
     def reply(self, text):
-        #TODO USE NLP HERE TO FIND THE CORRECT INTENT
-
-        text = text.lower()
-        
-        regex = lambda l: re.compile('|'.join([re.escape(x) for x in l]))
-
-        search_regex = regex(['deal', 'promo', 'coupon', 'find', 'search', 'place', 'restaurant'])
-        greet_regex = regex(['hi','hey','ola','hello','sup','whatsup'])
-
-        search_match = search_regex.search(text, re.IGNORECASE)
-        greet_match = greet_regex.search(text, re.IGNORECASE)
-
-        if search_match:
-            intent = self.get_intent('search')
-            text = text.replace(search_match.group(0),'').strip()
-        elif greet_match:
-            intent = self.get_intent('greet')
-        else:
-            intent = self.get_intent('other')
-
-        replies = yield intent.process(text)
-
+        replies = yield self.nlp.process(text)
         return replies
 
 def setup_intents(application):
 
+    from chatbot.intents.account import AccountIntent
     from chatbot.intents.greet import GreetIntent
     from chatbot.intents.affirm import AffirmIntent
     from chatbot.intents.suggest import SuggestIntent
@@ -101,6 +84,7 @@ def setup_intents(application):
 
     manager = IntentManager(application=application)
    
+    manager.register_intent(AccountIntent(manager))
     manager.register_intent(GreetIntent(manager))
     manager.register_intent(AffirmIntent(manager))
     manager.register_intent(SuggestIntent(manager))    

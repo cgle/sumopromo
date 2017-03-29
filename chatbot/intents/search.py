@@ -2,7 +2,7 @@ import ujson
 from tornado import gen
 
 import chatbot.services.facebook.msg as facebook_msg
-from chatbot.intents import Reply, Intent
+from chatbot.intents import Reply, Intent, TextReply
 
 from chatbot.misc.router import url_for
 
@@ -23,7 +23,7 @@ class PromotionsReply(Reply):
 
     def _to_facebook_card(self, promotion):
         view_promotion_url = url_for('web.view_promo', promotion_id=promotion['id'])
-        claim_promotion_url = url_for('api.claim_promo', promotion_id=promotion['id'])
+        claim_promotion_url = url_for('web.claim_promo', promotion_id=promotion['id'])
 
         default_action = facebook_msg.WebUrlButton('', view_promotion_url)
         view_button = facebook_msg.WebUrlButton('View', view_promotion_url)
@@ -45,11 +45,14 @@ class SearchIntent(Intent):
         super(SearchIntent, self).__init__(*args, **kwargs)
     
     @gen.coroutine
-    def process(self, text):
-        search_url = url_for('api.search', query=text)
+    def process(self, query=''):
+        search_url = url_for('api.search', query=query)
         resp = yield self.fetch(search_url)
         data = ujson.loads(resp.body)
         promotions = data['promotions']
-
-        return [PromotionsReply(promotions)]
+        
+        if promotions:
+            return [PromotionsReply(promotions)]
+        else:
+            return [TextReply(text="Sorry we can't interpret your message:( Please try again!")]
         

@@ -113,7 +113,7 @@ def deactivate_promotion(promotion_id):
 def view_promotion_claims(promotion_id):
     return render_template('promotion/sumo-promotion/view-claims.html')
 
-@bp.route('/promos/<promotion_id>/claim', methods=['POST'])
+@bp.route('/promos/<promotion_id>/claim', methods=['GET'])
 @login_required
 def claim_promotion(promotion_id):
     promotion = db.promotion.get_sumo_promotion_by_id(promotion_id)
@@ -198,7 +198,7 @@ def delete_deal(promotion_id):
 def view_deal_claims(promotion_id):
     return render_template('promotion/internet-deal/view-claims.html')
 
-@bp.route('/deals/<promotion_id>/claim', methods=['POST'])
+@bp.route('/deals/<promotion_id>/claim', methods=['GET'])
 @login_required
 def claim_deal(promotion_id):
     return 'OK', 200

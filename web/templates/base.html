@@ -23,12 +23,15 @@
         </div>
     </div>
     {% include "footer.html" %}
+
     {% assets "vendor_js" %}
     <script type="text/javascript" src="{{ ASSET_URL }}"></script>
     {% endassets %}
+
     {% assets "global_js" %}
     <script type="text/javascript" src="{{ ASSET_URL }}"></script>
     {% endassets %}
+
     {% block script %}
     {% endblock %}
     </body>

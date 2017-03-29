@@ -10,8 +10,8 @@ def format_url_args(url, **kwargs):
 def format_text(value):
     return re.sub('[^a-zA-Z0-9 \n\.]', ' ', value)
 
-@app.template_filter('p_fmt')
-def p_fmt(value, limit=200):
+@app.template_filter('trim_fmt')
+def trim_fmt(value, limit=200):
     if value:
         value = value[:limit]
         return value if len(value) < limit else '{}...'.format(value)

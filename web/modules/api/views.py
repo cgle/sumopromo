@@ -32,3 +32,4 @@ def view_promotion_api(promotion_id):
         'promotion': promotion.to_dict()
     }
     return json_resp(output)
+    

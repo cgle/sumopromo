@@ -34,7 +34,7 @@
 {% endmacro %}
 
 {% macro render_claim_button(promotion) %}
-<form action='{{ claim_url(promotion) }}' method='POST'>
+<form action='{{ claim_url(promotion) }}' method='GET'>
 <button type="submit" action='claim'data-promotion='{{ promotion.id }}' class='claim-button btn btn-success btn-block {% if not promotion.is_live %} disabled {% endif %}'>CLAIM</button>
 </form>
 {% endmacro %}
@@ -135,7 +135,11 @@
                 </div>
                 </td>
                 <td>
-                    {{ render_claim_button(promotion) }}
+                    {% if promotion.is_sumo %}
+                    <a class='btn btn-default btn-success' href='{{ url_for("promotion.view_promotion", promotion_id=promotion.id) }}'>VIEW</a>
+                    {% else %}
+                    <a class='btn btn-default btn-success' href='{{ url_for("promotion.view_deal", promotion_id=promotion.id) }}'>VIEW</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
@@ -216,9 +220,9 @@
 <div class='promotion-card'>
     <div class='promotion-card-content'>
         <img class='business-logo' src='{% if promotion.business.logo %} {{ promotion.business.logo }} {% endif %}' alt='business-logo'>
-        <h4><a href="{{ url_for('promotion.view_promotion', promotion_id=promotion.id) }}">{{ promotion.name }}</a></h4>
-        <h5> {{ promotion.business.name }} </h5>
-        <p> {{ promotion.description | p_fmt(limit=100) }} </p>
+        <h4 class='promotion-card-header'><a href="{{ url_for('promotion.view_promotion', promotion_id=promotion.id) }}">{{ promotion.name | trim_fmt(limit=80 )}}</a></h4>
+        <h5 class='promotion-card-business-name'> {{ promotion.business.name }} </h5>
+        <p class='promotion-card-info'> {{ promotion.description | trim_fmt(limit=100) }} </p>
     </div>
 </div>
 {% endmacro %}

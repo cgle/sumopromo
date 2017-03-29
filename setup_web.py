@@ -1,15 +1,14 @@
-import logging
 from database import metadata
 from database.sumodb import SumoDB
 from config.db import database_uri, engine_options, session_options
 
-from drivers.s3 import S3Manager
+from datastores.s3 import S3Manager
 from config.aws import aws_config
 
 def setup_db():
-    print('drop and init sumodb')
+    print('migrate, drop and init sumodb')   
     sumo_db = SumoDB(database_uri, metadata=metadata, engine_options=engine_options, session_options=session_options)
-    sumo_db.drop_all()
+    sumo_db.drop_all() # drop_all
     sumo_db.create_all()
 
     sumo_db.category.create_from_list(['food drink','restaurant','groceries','bakery','beauty spas','health fitness','salon','gym','travel','pets','retail'])
@@ -31,10 +30,6 @@ def cleanup_aws():
             print('Done deleting from {} bucket'.format(bucket))
         except Exception as e:
             print('Error {}'.format(e))
-
-
-def generate_fake_data():
-    pass
 
 if __name__ == '__main__':
     setup_db()

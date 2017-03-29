@@ -74,7 +74,7 @@ def logout():
 def oauth_authorize(provider):
     if current_user.is_authenticated:
         return redirect(url_for('site.index'))
-
+    
     oauth = OAuthSignIn.get_provider(provider)
     return oauth.authorize()
 
@@ -93,10 +93,10 @@ def oauth_callback(provider):
     
     user = db.user.get_by_email(profile['email'])
     if not user:
-        user = db.add(email=profile['email'], first_name=profile['first_name'], last_name=profile['last_name'])
+        user = db.user.add(email=profile['email'], first_name=profile['first_name'], last_name=profile['last_name'])
 
     login_user(user, True)
-
+    
     return redirect(url_for('site.index'))
 
 class OAuthSignIn(object):
@@ -184,8 +184,49 @@ class GoogleSignIn(OAuthSignIn):
 # Facebook OAuth
 #
 
-class FacebookSignIn(object):
-    pass
+class FacebookSignIn(OAuthSignIn):
+    def __init__(self):
+        super(FacebookSignIn, self).__init__('facebook')
+        self.service = OAuth2Service(
+            name='facebook',
+            client_id=self.consumer_id,
+            client_secret=self.consumer_secret,
+            authorize_url='https://graph.facebook.com/oauth/authorize',           
+            access_token_url='https://graph.facebook.com/oauth/access_token',
+            base_url='https://graph.facebook.com/'
+        )
+    
+    def authorize(self):
+        return redirect(self.service.get_authorize_url(
+            scope='public_profile',
+            response_type='code',
+            redirect_uri=self.get_callback_url())
+        )
+
+    def callback(self):
+        if 'code' not in request.args:
+            return None
+
+        oauth_session = self.service.get_auth_session(
+            data={'code': request.args['code'],
+                  'grant_type': 'authorization_code',
+                  'redirect_uri': self.get_callback_url()
+            },
+            decoder=ujson.loads
+        )
+        data = ujson.loads(oauth_session.get('me?fields=id,email,first_name,last_name,name,location,picture').text)
+        profile = self.normalize(data)
+        return profile
+    
+    @staticmethod
+    def normalize(data):
+        return {
+            'email': data['email'],
+            'first_name': data['first_name'],
+            'last_name': data['last_name'],
+            'profile_pic': data['picture']['data']['url'],
+            'social_id': 'facebook${}'.format(data['id'])
+        }
 
 #
 # Account

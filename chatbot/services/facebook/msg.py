@@ -167,7 +167,7 @@ class Button(object):
     __slots__ = ('title',)
     button_type = None
 
-    def __init__(self, title):
+    def __init__(self, title=''):
         if len(title) > 20:
             raise ValueError('Button title limit is 20 characters')
         self.title = title
@@ -177,10 +177,10 @@ class Button(object):
         if len(self.title):
             data['title'] = self.title
 
-        if self.button_type == 'web_url':
+        if self.button_type in ['web_url', 'account_link']:
             data['url'] = self.url
         elif self.button_type == 'postback':
-            data['payload'] = self.payload
+            data['payload'] = self.payload        
         return data
 
 class WebUrlButton(Button):
@@ -200,6 +200,15 @@ class PostbackButton(Button):
     def __init__(self, title, payload):
         self.payload = payload
         super(PostbackButton, self).__init__(title=title)
+
+class AccountLinkButton(Button):
+    
+    __slots__ = ('url',)
+    button_type = 'account_link'
+
+    def __init__(self, url):
+        self.url = url
+        super(AccountLinkButton, self).__init__()
 
 class QuickReplyItem(object):
 
@@ -249,14 +258,15 @@ class QuickReplies(object):
 
 class Message(object):
 
-    __slots__ = ('text', 'attachment', 'quick_replies',)
+    __slots__ = ('text', 'attachment', 'quick_replies', 'sender_action',)
 
-    def __init__(self, text=None, attachment=None, quick_replies=None):
+    def __init__(self, text=None, attachment=None, quick_replies=None, sender_action=None):
         if not text and not attachment:
             raise ValueError('<Fb message> text or attachment must be set')
         self.text = text
         self.attachment = attachment
         self.quick_replies = quick_replies
+        self.sender_action = sender_action
 
     def to_dict(self):
         data = {}
@@ -266,6 +276,8 @@ class Message(object):
             data['attachment'] = self.attachment.to_dict()
         if self.quick_replies:
             data['quick_replies'] = self.quick_replies.to_dict()
+        if self.sender_action:
+            data['sender_action'] = self.sender_action
         return data
 
 class Recipient(object):
@@ -326,7 +338,7 @@ class MessageRequest(MsgRequest):
 
 class SettingRequest(MsgRequest):
 
-    URL = get_url('thread_settings')
+    URL = get_url('messenger_profile')
 
     def __init__(self, setting_type=None, **kwargs):
         self.settings = kwargs

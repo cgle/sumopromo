@@ -12,7 +12,7 @@ from config.aws import aws_config
 from database import metadata
 from database.sumodb import SumoDB
 
-from drivers.s3 import S3Manager
+from datastores.s3 import S3Manager
 
 basedir = os.path.dirname(os.path.realpath(__file__))
 location = lambda x: os.path.join(basedir, x)
@@ -109,7 +109,6 @@ global_files = [ location('assets/js/common.js'),
                  location('assets/js/layout.js'),
                  location('assets/js/site.js'),
                  location('assets/js/sumo_voucher.js') ]
-
 global_js = Bundle(global_files, filters='uglifyjs', output='js/global.js')
 
 assets.register('vendor_js', vendor_js)

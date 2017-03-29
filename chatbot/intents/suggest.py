@@ -6,4 +6,3 @@ class SuggestIntent(Intent):
     
     def __init__(self, *args, **kwargs):
         super(SuggestIntent, self).__init__(*args, **kwargs)
-

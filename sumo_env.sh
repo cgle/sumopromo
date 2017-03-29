@@ -1,5 +1,5 @@
 #!/bin/bash
 
 eval "$(pyenv init -)"
-pyenv shell 3.6.1rc1
+pyenv shell 3.6.1
 source venv/bin/activate

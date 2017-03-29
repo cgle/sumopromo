@@ -104,3 +104,6 @@ social.config
 social.config.bak
 aws.config
 emails.csv
+
+alembic/
+alembic.init
