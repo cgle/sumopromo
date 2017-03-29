@@ -6,6 +6,7 @@ class Config(object):
     MAX_WORKERS = 8    
     
     web_location_base = 'http://demo.sumopromo.com'
+    #web_location_base = 'https://8c9a88aa.ngrok.io'
 
     app = {
         'compress_response': True,

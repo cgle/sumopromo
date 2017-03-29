@@ -12,9 +12,7 @@ def demo_only(f):
             password: demo
         '''
         if app.config['DEMO']:
-            if current_user is None:
-                return redirect(url_for('account.login'))
-            return redirect(url_for('site.index'))
+            return redirect(url_for('account.login'))
         else:
             return f(*args, **kwargs)
     return decorated_func
