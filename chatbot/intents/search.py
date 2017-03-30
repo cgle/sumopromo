@@ -30,7 +30,7 @@ class PromotionsReply(Reply):
         claim_button = facebook_msg.WebUrlButton('Claim', claim_promotion_url)
 
         element = facebook_msg.Element(title=promotion['name'],
-                                       subtitle=promotion['description'],
+                                       subtitle=promotion['description'][:75],
                                        image_url=promotion['business']['logo'],
                                        default_action=default_action,
                                        buttons=[view_button, claim_button])
