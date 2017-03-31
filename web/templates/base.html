@@ -1,12 +1,20 @@
 <html>
-    <head>
+    <head>        
         <meta charset='utf-8'>
+        <link rel="icon" href="/static/img/logo180x180.png">
         <meta name="description" content="A real-time, location-based, on-demand promotion platform">
         <meta name="keywords" content="promotion,coupon,e-commerce,startup,usa,digital,mobile,real-time">
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>{% if title %} {{ title }} {% else %} SumoPromo {% endif %}</title>
+        <!-- IOS MANIFEST -->
+        <link rel="apple-touch-icon" href="touch-icon-iphone.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/static/img/logo152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/static/img/logo180x180.png">
+        <link rel="apple-touch-icon" sizes="167x167" href="/static/img/logo167x167.png">        
+        <meta name="apple-mobile-web-app-title" content="SumoPromo">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+
         <link rel="canonical" href="/" />
-        <link rel="icon" href="/static/img/logo.png">        
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open Sans" async defer>
         <!--
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" async> -->
@@ -16,6 +24,9 @@
         {% block style %} {% endblock %}
     </head>
     <body>
+    
+    <script>(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script>
+
     {% include "topbar.html" %}
     <div class='global-wrapper'>
         <div class='content-wrapper'>

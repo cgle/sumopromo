@@ -12,6 +12,9 @@ api_search = location('/api/v1/search?query={query}')
 web_view_promo = location('/promos/{promotion_id}')
 web_claim_promo = location('/promos/{promotion_id}/claim')
 
+web_view_deal = location('/deals/{promotion_id}')
+web_claim_deal = location('/deals/{promotion_id}/claim')
+
 #ACCOUNT
 account_login = location('/login')
 account_logout = location('/logout')
@@ -25,7 +28,9 @@ url_maps = {
     'account.facebook_auth': account_fb_auth,
 
     'web.view_promo': web_view_promo,
-    'web.claim_promo': web_claim_promo
+    'web.claim_promo': web_claim_promo,
+    'web.view_deal': web_view_deal,
+    'web.claim_deal': web_claim_deal
 }
 
 def url_for(name, **kwargs):
